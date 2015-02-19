@@ -61,12 +61,15 @@ Template.meeting.events({
   	} else {
 	  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"})._id, {$set: {status: "ongoing"}});
 	  timerId = Meteor.setInterval(function() {
-	    if(Speeches.findOne({meeting: Seesion.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() === 0){
-		  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "done"}});
-		} else {
-			Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {timeLeft: newDate(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() - 1000)}});
-	    }		
-	  }, 1000);
+  	   	Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {timeLeft: newDate(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() - 1000)}});
+		Meteor.clearInterval(timerId);  
+		//if(Speeches.findOne({meeting: Seesion.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() === 0){
+	    //  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "done"}});
+		//  Meteor.clearInterval(timerId);
+	    //} else {
+	   	//  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {timeLeft: newDate(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() - 1000)}});
+        //}		
+      }, 1000);
   	}
   },
   'click #next': function(e) {
@@ -87,7 +90,7 @@ Template.meeting.events({
 Template.lineup.events({
   'input': function(e, t) {
   	var regex = new RegExp("([0-9]|10)+");
-    if(t.find("#subject").value != "" && regex.test(t.find("#time").value)) {
+    if(t.find("#subject").value != "" && t.find("#time").value >= 1 && t.find("#time").value <= 10 ) {
       t.find("#lineup").disabled = "";
     } else {
       t.find("#lineup").disabled = "disabled";

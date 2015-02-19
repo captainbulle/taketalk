@@ -4,7 +4,7 @@
     <h2>People lining up</h2>
     <div class="list-group">
       {{#each speeches}}
-	    <span class="list-group-item">
+	    <span class="list-group-item{{#if status}} active{{/if}}">
           <h4 class="list-group-item-heading">{{user}} ({{timeLeft}}/{{time}})</h4>
           <p class="list-group-item-text">{{subject}}</p>
 	    </span>
