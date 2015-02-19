@@ -1,0 +1,31 @@
+<template name="lineup">
+  <form class="form-horizontal">
+	<fieldset>
+      <legend>Line up to talk</legend>
+      <div class="control-group">
+	    <label class="control-label" for="subject">Subject</label>
+	    <div class="controls">
+	      <input id="subject" name="subject" type="text" placeholder="" class="input-xlarge" required="">
+	      <p class="help-block">Required</p>
+	    </div>
+	  </div>
+      <div class="control-group">
+	    <label class="control-label" for="time">Time</label>
+	    <div class="controls">
+	      <div class="input-append">
+	        <input id="time" name="time" class="input-xlarge" placeholder="" type="number" min="1" max="10" required="">
+	        <span class="add-on">minutes</span>
+	      </div>
+	      <p class="help-block">Required (Between 1 and 10)</p>
+   	    </div>
+	  </div>
+      <div class="control-group">
+	    <label class="control-label" for="lineup"></label>
+	    <div class="controls">
+	      <button id="cancelLineup" name="cancelLineup" class="btn btn-danger">Cancel</button>
+	      <button id="lineup" name="lineup" class="btn btn-success" disabled="disabled">Line up</button>
+	    </div>
+	  </div>
+	</fieldset>
+  </form>
+</template>

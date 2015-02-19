@@ -1,0 +1,1 @@
+Speeches = new Mongo.Collection("speeches");

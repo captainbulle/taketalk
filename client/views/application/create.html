@@ -1,0 +1,41 @@
+<template name="create">
+  <form class="form-horizontal">
+    <fieldset>
+      <legend>Create a new meeting</legend>
+      <div class="control-group">
+        <label class="control-label" for="animatorName">Your name</label>
+        <div class="controls">
+          <input id="animatorName" name="animatorName" type="text" placeholder="" class="input-xxlarge" required="">
+          <p class="help-block">Required</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="animatorEmail">Your e-mail</label>
+        <div class="controls">
+          <input id="animatorEmail" name="animatorEmail" type="text" placeholder="" class="input-xxlarge" required="">
+          <p class="help-block">Required</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="meetingName">Your meeting's name</label>
+        <div class="controls">
+          <input id="meetingName" name="meetingName" type="text" placeholder="" class="input-xxlarge" required="">
+          <p class="help-block">Required</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="participantsEmails">Your participants' emails</label>
+        <div class="controls">                     
+          <textarea id="participantsEmails" name="participantsEmails"></textarea>
+          <p class="help-block">Required</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="create"></label>
+        <div class="controls">
+          <button id="create" name="create" class="btn btn-primary" disabled="disabled">Create your meeting</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</template>

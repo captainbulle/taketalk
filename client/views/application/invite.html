@@ -1,0 +1,21 @@
+<template name="invite">
+  <form class="form-horizontal">
+	<fieldset>
+      <legend>Invite new participants</legend>
+      <div class="control-group">
+	    <label class="control-label" for="newParticipantsEmails">Your participants' emails</label>
+	    <div class="controls">                     
+	      <textarea id="newParticipantsEmails" name="newParticipantsEmails"></textarea>
+          <p class="help-block">Required</p>
+	    </div>
+   	  </div>
+      <div class="control-group">
+	    <label class="control-label" for="invite"></label>
+	    <div class="controls">
+	      <button id="cancelInvite" name="cancelInvite" class="btn btn-danger">Cancel</button>
+	      <button id="invite" name="invite" class="btn btn-success" disabled="disabled">Invite</button>
+	    </div>
+	  </div>
+    </fieldset>
+  </form>
+</template>
