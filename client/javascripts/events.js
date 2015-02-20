@@ -54,23 +54,19 @@ Template.meeting.events({
 	}
   },
   'click #waitProceed': function(e) {
-  	var timerId = "";
+    var timerId = "";
   	if(e.target.value == "Wait") {
 	  Meteor.clearInterval(timerId);
 	  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "pending"}});
   	} else {
-	  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"})._id, {$set: {status: "ongoing"}});
-	  timerId = Meteor.setInterval(function() {
-  	   	Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {timeLeft: newDate(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() - 1000)}});
-		Meteor.clearInterval(timerId);  
-		//if(Speeches.findOne({meeting: Seesion.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() === 0){
-	    //  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "done"}});
-		//  Meteor.clearInterval(timerId);
-	    //} else {
-	   	//  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {timeLeft: newDate(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() - 1000)}});
-        //}		
+      Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"})._id, {$set: {status: "ongoing"}});
+      timerId = Meteor.setInterval(function() {Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {timeLeft: Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft.setSeconds(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft.getSeconds() + 1)}});
+		if(Speeches.findOne({meeting: Seesion.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() === 0){
+  	      Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "done"}});
+  		  Meteor.clearInterval(timerId);
+	    }
       }, 1000);
-  	}
+	}
   },
   'click #next': function(e) {
     Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: {$in: ["ongoing", "pending"]}})._id, {$set: {status: "done"}});
@@ -102,7 +98,7 @@ Template.lineup.events({
   },
   'click #lineup': function(e, t) {
     e.preventDefault();
-    Speeches.insert({subject: t.find("#subject").value, timeLeft: new Date(0, 0, 0, 0, t.find("#time").value, 0), time: new Date(0, 0, 0, 0, t.find("#time").value, 0), status: "pending", user: Session.get("userId"), meeting: Session.get("meetingId")});
+    Speeches.insert({subject: t.find("#subject").value, timeLeft: new Date(0, 0, 0, 0, 0, 0), time: new Date(0, 0, 0, 0, t.find("#time").value, 0), status: "pending", user: Session.get("userId"), meeting: Session.get("meetingId")});
     Router.go('/meeting/' + Session.get("meetingId"));
   }
 });
