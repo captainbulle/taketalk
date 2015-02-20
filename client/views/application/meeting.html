@@ -27,8 +27,8 @@
     </p>
     {{#if isAnimator}}
       <p>
-	    <input type="button" class="btn btn-primary btn-lg" role="button" id="waitProceed" value="{{proceed}}" />
-	    <input type="button" class="btn btn-primary btn-lg" role="button" id="next" value="Next" />
+	    <input type="button" class="btn btn-primary btn-lg" role="button" id="waitProceed" value="{{proceed}}" {{disabled}} />
+	    <input type="button" class="btn btn-primary btn-lg" role="button" id="next" value="Next" {{disabled}} />
       </p>
       <p>
 	    <input type="button" class="btn btn-primary btn-lg" role="button" id="inviteParticipants" value="Invite participants" />
