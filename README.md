@@ -1,36 +1,32 @@
 <snippet>
 <content><![CDATA[
-# ${1:TakeTalk}
+# TakeTalk
 
-TODO: Write a project description
+Cette application permet à des utilisateurs en réunion de gérer leur temps de parole simplement.
+Fonctionne sur tout type de support.
 
 ## Installation
 
-TODO: Describe the installation process
+Installer node.js et Meteor. 
+Aller sur le dossier en console, taper meteor, c'est fait !
+Votre appli est maintenant fonctionnelle sur le localhost.
 
-## Usage
+## Tutoriel
 
-TODO: Write usage instructions
+Le tutoriel est disponible sur: http://taketalk.meteor.com/tutorial
 
-## Contributing
+## Contribuez !
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+Vous pouvez contribuer sur cette page, merci d'avance !
 
-## History
+## Histoire
 
-TODO: Write history
+Projet créé sous la direction de Laurent Poligny, dans le cadre d'un projet en M2 MIAGE à l'université d'Evry.
 
-## Credits
+## Auteurs
 
-TODO: Write credits
+POLIGNY Laurent - SMAIL Arezki - EL GAAD Hasnae - GLAVAS Karlo - CORBEAU Théodore - HAZEM Amar
 
-## License
-
-TODO: Write license
 ]]></content>
 <tabTrigger>readme</tabTrigger>
 </snippet>
