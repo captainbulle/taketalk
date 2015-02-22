@@ -1,5 +1,5 @@
 <snippet>
-<content><![CDATA[
+<content>
 # TakeTalk
 
 Cette application permet à des utilisateurs en réunion de gérer leur temps de parole simplement.
@@ -27,6 +27,6 @@ Projet créé sous la direction de Laurent Poligny, dans le cadre d'un projet en
 
 POLIGNY Laurent - SMAIL Arezki - EL GAAD Hasnae - GLAVAS Karlo - CORBEAU Théodore - HAZEM Amar
 
-]]></content>
+</content>
 <tabTrigger>readme</tabTrigger>
 </snippet>
