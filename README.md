@@ -28,5 +28,4 @@ Projet créé sous la direction de Laurent Poligny, dans le cadre d'un projet en
 POLIGNY Laurent - SMAIL Arezki - EL GAAD Hasnae - GLAVAS Karlo - CORBEAU Théodore - HAZEM Amar
 
 </content>
-<tabTrigger>readme</tabTrigger>
 </snippet>
