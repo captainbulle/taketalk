@@ -1,3 +1,5 @@
+var timerId = 0;
+
 /** The events that home template contains */
 Template.home.events({
   /** A click on #open opens the create page */
@@ -11,7 +13,9 @@ Template.create.events({
   /** An interaction on input checks if the form is properly filled */
   'input': function(e, t) {
 	var regexa = new RegExp("^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$");
-	var regexp = new RegExp("(^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4})\n*");
+	var regexp = new RegExp("^([a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}\n*)+$");
+	//var regexa = new RegExp("^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$");
+	//var regexp = new RegExp("^((([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\n*)+$");
 	if(t.find("#animatorName").value != "" && regexa.test(t.find("#animatorEmail").value) && t.find("#meetingName").value != "" && regexp.test(t.find("#participantsEmails").value)) {
 		t.find("#create").disabled = "";
 	} else {
@@ -66,24 +70,24 @@ Template.meeting.events({
   },
   /** A click on waitProceed starts or stops the timer */
   'click #waitProceed': function(e) {
-    var timerId = "";
   	if(e.target.value == "Wait") {
-	  Meteor.clearInterval(timerId);
-	  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "pending"}});
-  	} else {
+  	  Meteor.clearInterval(timerId);
+  	  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "pending"}});
+    } else {
       Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"})._id, {$set: {status: "ongoing"}});
-      timerId = Meteor.setInterval(function() {Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {timeLeft: Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft.setSeconds(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft.getSeconds() + 1)}});
-		if(Speeches.findOne({meeting: Seesion.get("meetingId"), status: "ongoing"}).timeLeft.getMilliseconds() === 0){
-  	      Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "done"}});
-  		  Meteor.clearInterval(timerId);
-	    }
-      }, 1000);
-	}
+      timerId = Meteor.setInterval(function() {
+  	    Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {timeLeft: Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft + 1}});
+  	    if(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft == Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).time){
+    	  Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "done"}});
+          Meteor.clearInterval(timerId);
+        }
+	  } , 1000);
+  	}
   },
   /** A click on next goes to the next speech */
   'click #next': function(e) {
+	Meteor.clearInterval(timerId);
     Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: {$in: ["ongoing", "pending"]}})._id, {$set: {status: "done"}});
-    Blaze.render(meeting);
   },
   /** A click on inviteParticipants opens the invite page */
   'click #inviteParticipants': function(e) {
@@ -103,7 +107,7 @@ Template.lineup.events({
   /** An interaction on input checks if the form is properly filled */
   'input': function(e, t) {
   	var regex = new RegExp("([0-9]|10)+");
-    if(t.find("#subject").value != "" && t.find("#time").value >= 1 && t.find("#time").value <= 10 ) {
+    if(t.find("#subject").value != "" && t.find("#time").value >= 1 && t.find("#time").value <= 10) {
       t.find("#lineup").disabled = "";
     } else {
       t.find("#lineup").disabled = "disabled";
@@ -117,7 +121,7 @@ Template.lineup.events({
   /** A click on lineup creates a speech and goes back to the meeting page */
   'click #lineup': function(e, t) {
     e.preventDefault();
-    Speeches.insert({subject: t.find("#subject").value, timeLeft: new Date(0, 0, 0, 0, 0, 0), time: new Date(0, 0, 0, 0, t.find("#time").value, 0), status: "pending", user: Session.get("userId"), meeting: Session.get("meetingId")});
+    Speeches.insert({subject: t.find("#subject").value, timeLeft: 0, time: t.find("#time").value * 60, status: "pending", user: Session.get("userId"), meeting: Session.get("meetingId")});
     Router.go('/meeting/' + Session.get("meetingId"));
   }
 });
