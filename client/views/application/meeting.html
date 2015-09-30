@@ -2,6 +2,7 @@
   <h1>{{meeting}}</h1>
   <div class="col-sm-4 col-md-8">
     <h2>People lining up</h2>
+
     <div class="list-group">
       {{#each speeches}}
 	    <span class="list-group-item{{#if status}} active{{/if}}">
@@ -11,6 +12,7 @@
       {{/each}}
     </div>
   </div>
+
   <div class="col-sm-4 col-md-8">
     <h2>People on this meeting</h2>
     <div class="list-group">
@@ -21,6 +23,7 @@
       {{/each}}
     </div>
   </div>
+  
   <div class="col-sm-4 col-md-8">
     <p>
 	  <input type="button" class="btn btn-primary btn-lg" role="button" id="talkCancel" value="{{talk}}" />
