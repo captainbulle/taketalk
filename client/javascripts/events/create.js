@@ -4,21 +4,41 @@ Template.create.events({
     /** create new input when the last is filled */
     'keyup .participantsEmails': function(e) {
         var input = e.target
-        var rank = input.getAttribute('rank')
+        var rank = input.parentElement.getAttribute('rank')
         var inputs = input.parentElement.parentElement.children
 
         if (input.value.length > 0) {
             var findInput = false
-            console.log(inputs);
             for (i = 1; i < inputs.length; i++) {
-                if (inputs[i].children[0].getAttribute('rank') == parseInt(rank) + 1) {
+                if (inputs[i].getAttribute('rank') == parseInt(rank) + 1) {
                     findInput = true;
                 }
             }
             if (!findInput) {
                 var newInput = input.parentElement.cloneNode(true);
                 newInput.children[0].value = ""
-                newInput.children[0].setAttribute('rank', parseInt(rank) + 1)
+                newInput.setAttribute('rank', parseInt(rank) + 1)
+                input.parentElement.parentElement.appendChild(newInput)
+            }
+        }
+    },
+
+    'keyup .ordreDuJour': function(e) {
+        var input = e.target
+        var rank = input.parentElement.getAttribute('rank')
+        var inputs = input.parentElement.parentElement.children
+
+        if (input.value.length > 0) {
+            var findInput = false
+            for (i = 1; i < inputs.length; i++) {
+                if (inputs[i].getAttribute('rank') == parseInt(rank) + 1) {
+                    findInput = true;
+                }
+            }
+            if (!findInput) {
+                var newInput = input.parentElement.cloneNode(true);
+                newInput.children[0].value = ""
+                newInput.setAttribute('rank', parseInt(rank) + 1)
                 input.parentElement.parentElement.appendChild(newInput)
             }
         }
