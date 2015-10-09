@@ -1,17 +1,29 @@
 /** The events that create template contains */
 Template.create.events({
-    /** An interaction on input checks if the form is properly filled */
-    'input': function(e, t) {
-        var regexa = new RegExp("^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$");
-        var regexp = new RegExp("^([a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}\n*)+$");
-        //var regexa = new RegExp("^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$");
-        //var regexp = new RegExp("^((([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\n*)+$");
-        if(t.find("#animatorName").value != "" && regexa.test(t.find("#animatorEmail").value) && t.find("#meetingName").value != "" && regexp.test(t.find("#participantsEmails").value)) {
-            t.find("#create").disabled = "";
-        } else {
-            t.find("#create").disabled = "disabled";
+
+    /** create new input when the last is filled */
+    'keyup .participantsEmails': function(e) {
+        var input = e.target
+        var rank = input.getAttribute('rank')
+        var inputs = input.parentElement.parentElement.children
+
+        if (input.value.length > 0) {
+            var findInput = false
+            console.log(inputs);
+            for (i = 1; i < inputs.length; i++) {
+                if (inputs[i].children[0].getAttribute('rank') == parseInt(rank) + 1) {
+                    findInput = true;
+                }
+            }
+            if (!findInput) {
+                var newInput = input.parentElement.cloneNode(true);
+                newInput.children[0].value = ""
+                newInput.children[0].setAttribute('rank', parseInt(rank) + 1)
+                input.parentElement.parentElement.appendChild(newInput)
+            }
         }
     },
+
     /** A form submission creates a meeting, invites participants and opens the meeting page */
     'submit form': function(e) {
         e.preventDefault();

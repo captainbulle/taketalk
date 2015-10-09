@@ -10,9 +10,9 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="animatorEmail">Your <u>e-mail</u></label>
+        <label class="control-label" for="animatorEmail">Your e-mail</label>
         <div class="controls">
-          <input id="animatorEmail" name="animatorEmail" type="text" placeholder="" class="input-xxlarge" required="">
+          <input id="animatorEmail" name="animatorEmail" type="email" placeholder="" class="input-xxlarge" required="">
           <p class="help-block">Required</p>
         </div>
       </div>
@@ -24,16 +24,15 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="participantsEmails">Your participants' <u>emails</u></label>
+        <label class="control-label">Your participants' e-mails</label>
         <div class="controls">                     
-          <textarea id="participantsEmails" name="participantsEmails"></textarea>
-          <p class="help-block">Required (At least 1)</p>
+          <input type="email" class="participantsEmails" name="participantsEmails" rank="1">
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="create"></label>
         <div class="controls">
-          <button id="create" name="create" class="btn btn-primary" disabled="disabled">Create your meeting</button>
+          <button id="create" name="create" class="btn btn-primary">Create your meeting</button>
         </div>
       </div>
     </fieldset>
