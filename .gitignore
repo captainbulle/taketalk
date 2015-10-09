@@ -66,7 +66,9 @@ local.properties
 # CDT-specific
 .cproject
  
-/.idea/workspace.xml
+.idea/workspace.xml
+idea/tasks.xml
+
 # PDT-specific
 .buildpath
 
@@ -75,6 +77,3 @@ local.properties
 # IDEAS
 
 #########
-
-/.idea
-
