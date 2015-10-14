@@ -78,19 +78,20 @@ Template.create.events({
         localStorage.setItem(meetingId, meetingId);
         Session.set("meetingId", meetingId);
         Session.set("userId", userId);
+        Session.set("ordres", ordres);
+        Session.set("ordreTimes", ordreTimes);
         Meteor.call('sendEmail',
                     e.target.animatorEmail.value,
                     'noreply@taketalk.com',
                     'TakeTalk session created',
-                    'You have just created a session of TakeTalk. \nHere is the link : taketalk.meteor.com/join/' + meetingId + "/" + userId);
+                    'You have just created a session of TakeTalk. \nHere is the link : taketalk.meteor.com/join/'
+                    + meetingId +
+                    "/" + userId);
 
         for(var i = 0; i < participantsEmails.length; i++) {
             userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation', 'You are invited to a session of TakeTalk. \nPlease follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId);
         }
-        console.log(participantsEmails)
-        console.log(ordres)
-        console.log(ordreTimes)
         Router.go('/meeting/' + meetingId);
     }
 });

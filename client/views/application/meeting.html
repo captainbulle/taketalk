@@ -3,6 +3,12 @@
   <div class="col-sm-4 col-md-8">
     <h2>People lining up</h2>
 
+    <ul>
+        {{#each ordres}}
+            {{> ordre}}
+        {{/each}}
+    </ul>
+
     <div class="list-group">
       {{#each speeches}}
 	    <span class="list-group-item{{#if status}} active{{/if}}">
@@ -39,4 +45,11 @@
       </p>
     {{/if}}
   </div>
+</template>
+
+<template name="ordre">
+    <li class="list-ordre">
+        <h4 class="list-group-item-heading">{{ordre}}</h4>
+        <h4 class="list-group-item-heading">{{time}}</h4>
+    </li>
 </template>

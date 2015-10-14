@@ -42,3 +42,16 @@ Template.meeting.events({
         Router.go("home");
     }
 });
+
+Template.meeting.helpers ({
+    ordres: function () {
+        var ordres = Session.get("ordres");
+        var times = Session.get("ordreTimes");
+        var ordreAndTimes = new Array(ordres.length);
+        for (i = 0; i < ordres.length; i++) {
+            ordreAndTimes[i] = {"ordre" : ordres [i], "time" :times [i]};
+        }
+        console.log(ordreAndTimes)
+        return ordreAndTimes;
+    }
+});
