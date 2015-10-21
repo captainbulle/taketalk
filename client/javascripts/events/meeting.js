@@ -13,13 +13,25 @@ Template.meeting.events({
     'click #waitProceed': function(e) {
         if(e.target.value == "Wait") {
             Meteor.clearInterval(timerId);
-            Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "pending"}});
+            Speeches.update(
+                Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id,
+                {$set: {status: "pending"}}
+            );
         } else {
-            Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"})._id, {$set: {status: "ongoing"}});
+            Speeches.update(
+                Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"})._id,
+                {$set: {status: "ongoing"}}
+            );
             timerId = Meteor.setInterval(function() {
-                Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {timeLeft: Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft + 1}});
+                Speeches.update(
+                    Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id,
+                    {$set: {timeLeft: Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft + 1}}
+                );
                 if(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft == Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).time){
-                    Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id, {$set: {status: "done"}});
+                    Speeches.update(
+                        Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id,
+                        {$set: {status: "done"}}
+                    );
                     Meteor.clearInterval(timerId);
                 }
             } , 1000);
@@ -51,7 +63,11 @@ Template.meeting.helpers ({
         for (i = 0; i < ordres.length; i++) {
             ordreAndTimes[i] = {"ordre" : ordres [i], "time" :times [i]};
         }
-        console.log(ordreAndTimes)
+
         return ordreAndTimes;
+    },
+
+    isTimeNull: function (time) {
+        return time == '0:00';
     }
 });

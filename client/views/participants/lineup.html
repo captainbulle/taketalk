@@ -1,31 +1,45 @@
 <template name="lineup">
   <form class="form-horizontal">
-	<fieldset>
-      <legend>Line up to talk</legend>
-      <div class="control-group">
-	    <label class="control-label" for="subject">Subject</label>
-	    <div class="controls">
-	      <input id="subject" name="subject" type="text" placeholder="" class="input-xlarge" required="">
-	      <p class="help-block">Required</p>
-	    </div>
-	  </div>
-      <div class="control-group">
-	    <label class="control-label" for="time">Time</label>
-	    <div class="controls">
-	      <div class="input-append">
-	        <input id="time" name="time" class="input-xlarge" placeholder="" type="number" min="1" max="10" required="">
-	        <span class="add-on">minutes</span>
-	      </div>
-	      <p class="help-block">Required (Between 1 and 10)</p>
-   	    </div>
-	  </div>
-      <div class="control-group">
-	    <label class="control-label" for="lineup"></label>
-	    <div class="controls">
-	      <button id="cancelLineup" name="cancelLineup" class="btn btn-danger">Cancel</button>
-	      <button id="lineup" name="lineup" class="btn btn-success" disabled="disabled">Line up</button>
-	    </div>
-	  </div>
-	</fieldset>
+    <fieldset>
+        <legend>Line up to talk</legend>
+        <div class="control-group">
+        <label class="control-label" for="subject">Mots clé</label>
+        <div class="controls">
+          <input id="subject" maxlength="50" name="subject" type="text" class="input-xlarge">
+        </div>
+      </div>
+        <div class="control-group">
+        <label class="control-label" for="time">temps de parole :</label>
+        <div class="controls">
+          <div id="time">
+            <input class="timeButton" type="radio" name="time" value="300" checked>5 minutes
+            <input class="timeButton" type="radio" name="time" value="600">10 minutes
+            <input class="timeButton" type="radio" name="time" value="plus">plus de 10 minutes
+            <input class="timeButton" type="radio" name="time" value="rapide">intervention rapide
+          </div>
+        </div>
+      </div>
+        <div class="control-group">
+        <div class="controls">
+          {{#if hasGuest}}
+          <label for="guestList"></label>
+            <ul id="guestList">
+              {{#each guests}}
+                {{> guest}}
+              {{/each}}
+            </ul>
+          {{else}}
+            <button class="btn btn-success" id="lineUp">Line Up</button>
+          {{/if}}
+          <button id="cancelLineup" name="cancelLineup" class="btn btn-danger">Cancel</button>
+        </div>
+      </div>
+    </fieldset>
   </form>
+</template>
+
+<template name="guest">
+  <li class="guest">
+    <button class="btn btn-success">{{name}}</button>
+  </li>
 </template>

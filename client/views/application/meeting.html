@@ -11,10 +11,17 @@
 
     <div class="list-group">
       {{#each speeches}}
-	    <span class="list-group-item{{#if status}} active{{/if}}">
-          <h4 class="list-group-item-heading">{{user}} ({{timeLeft}}/{{time}})</h4>
-          <p class="list-group-item-text">{{subject}}</p>
-	    </span>
+        <span class="list-group-item{{#if status}} active{{/if}}">
+              <h4 class="list-group-item-heading">
+                {{user}}
+                {{#if isTimeNull time}}
+                  {{timeString}}
+                {{else}}
+                  ({{timeLeft}}/{{time}})
+                {{/if}}
+              </h4>
+            <p class="list-group-item-text">{{subject}}</p>
+        </span>
       {{/each}}
     </div>
   </div>
@@ -25,23 +32,23 @@
       {{#each users}}
         <span class="list-group-item">
           <h4 class="list-group-item-heading">{{name}}</h4>
-		</span>
+        </span>
       {{/each}}
     </div>
   </div>
   
   <div class="col-sm-4 col-md-8">
     <p>
-	  <input type="button" class="btn btn-primary btn-lg" role="button" id="talkCancel" value="{{talk}}" />
+	    <input type="button" class="btn btn-primary btn-lg" role="button" id="talkCancel" value="{{talk}}" />
     </p>
     {{#if isAnimator}}
       <p>
-	    <input type="button" class="btn btn-primary btn-lg" role="button" id="waitProceed" value="{{proceed}}" {{disabled}} />
-	    <input type="button" class="btn btn-primary btn-lg" role="button" id="next" value="Next" {{disabled}} />
+        <input type="button" class="btn btn-primary btn-lg" role="button" id="waitProceed" value="{{proceed}}" {{disabled}} />
+        <input type="button" class="btn btn-primary btn-lg" role="button" id="next" value="Next" {{disabled}} />
       </p>
       <p>
-	    <input type="button" class="btn btn-primary btn-lg" role="button" id="inviteParticipants" value="Invite participants" />
-	    <input type="button" class="btn btn-danger btn-lg" role="button" id="closeMeeting" value="Close meeting" />
+        <input type="button" class="btn btn-primary btn-lg" role="button" id="inviteParticipants" value="Invite participants" />
+        <input type="button" class="btn btn-danger btn-lg" role="button" id="closeMeeting" value="Close meeting" />
       </p>
     {{/if}}
   </div>
