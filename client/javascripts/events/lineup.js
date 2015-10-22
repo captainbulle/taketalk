@@ -55,3 +55,10 @@ Template.lineup.helpers ({
         return names;
     }
 });
+
+Template.lineup.helpers ({
+       ordres: function () 
+	    {
+		   return Session.get("ordres");
+		}
+});

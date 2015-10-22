@@ -1,13 +1,15 @@
 <template name="meeting">
   <h1>{{meeting}}</h1>
   <div class="col-sm-4 col-md-8">
-    <h2>People lining up</h2>
-
-    <ul>
+	
+	<h2>Agenda</h2>
+	<ul>
         {{#each ordres}}
             {{> ordre}}
         {{/each}}
     </ul>
+  
+    <h2>People lining up</h2>
 
     <div class="list-group">
       {{#each speeches}}

@@ -3,7 +3,13 @@
     <fieldset>
         <legend>Line up to talk</legend>
         <div class="control-group">
-        <label class="control-label" for="subject">Mots clé</label>
+        <label class="control-label" for="subject">Order : </label>
+		<select name="order" id="order" for="order">
+		{{#each ordres}}
+            {{> selectOrdre}}
+        {{/each}}
+		</select>
+        <label class="control-label" for="keywords">Mots clé</label>
         <div class="controls">
           <input id="subject" maxlength="50" name="subject" type="text" class="input-xlarge">
         </div>
@@ -22,9 +28,9 @@
         <div class="control-group">
         <div class="controls">
           {{#if hasGuest}}
-          <label for="guestList"></label>
+            <label for="guestList"></label>
             <ul id="guestList">
-              {{#each guests}}
+		      {{#each guests}}
                 {{> guest}}
               {{/each}}
             </ul>
@@ -42,4 +48,8 @@
   <li class="guest">
     <button class="btn btn-success">{{name}}</button>
   </li>
+</template>
+
+<template name="selectOrdre">
+	<option value="{{this}}">{{this}}</option> 		  
 </template>
