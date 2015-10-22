@@ -1,0 +1,17 @@
+/* Move down content because we have a fixed navbar that is 50px tall
+body {
+  padding-top: 25px;
+  padding-bottom: 20px;
+}
+*/
+
+@font-face {
+  font-family: 'pacifio';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../fonts/Pacifio.eot?#iefix'), url('../fonts/Pacifio.ttf')  format('truetype');
+}
+
+.title-font{
+  font-family: "pacifio", sans-serif;
+}

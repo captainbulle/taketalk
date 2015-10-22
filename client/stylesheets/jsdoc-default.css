@@ -1,4 +1,4 @@
-/*@font-face {
+@font-face {
     font-family: 'Open Sans';
     font-weight: normal;
     font-style: normal;
@@ -23,7 +23,7 @@
         url('../fonts/OpenSans-Light-webfont.woff') format('woff'),
         url('../fonts/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
 }
-
+/*
 html
 {
     overflow: auto;
