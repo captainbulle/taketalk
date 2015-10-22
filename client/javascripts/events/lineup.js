@@ -8,7 +8,14 @@ Template.lineup.events({
     /** A click on lineup creates a speech and goes back to the meeting page */
     'click #lineUp': function(e, t) {
         e.preventDefault();
+		var order = t.find("#order").value;
         var submitTime = t.find(".timeButton:checked").value;
+		
+		// If no keyword -> The subject is "Unknow"
+		if(t.find("#subject").value == ""){
+			t.find("#subject").value = "Unknow";
+		}
+		
         if (submitTime == 'rapide') {
             submitTime = "intervention rapide"
         }
@@ -21,6 +28,7 @@ Template.lineup.events({
                 subject: t.find("#subject").value,
                 timeLeft: 0,
                 time: 0,
+				orderChoose: order,
                 timeString: submitTime,
                 status: "pending",
                 user: Session.get("userId"),
@@ -32,6 +40,7 @@ Template.lineup.events({
                 subject: t.find("#subject").value,
                 timeLeft: 0,
                 time: submitTime,
+				orderChoose: order,
                 timeString: "",
                 status: "pending",
                 user: Session.get("userId"),
@@ -57,8 +66,7 @@ Template.lineup.helpers ({
 });
 
 Template.lineup.helpers ({
-       ordres: function () 
-	    {
+       ordres: function () {
 		   return Session.get("ordres");
 		}
 });

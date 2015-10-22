@@ -46,7 +46,7 @@ Template.create.events({
 	
 	'keyup .ordreDuJourTemps': function(e) {
 		var input = e.target;
-		if(isNaN(input.value)){
+		if(isNaN(input.value) || input.value.length > 3){
 			input.value = input.value.substr(0,input.value.length-1);
 		}
 	},

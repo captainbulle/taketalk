@@ -10,7 +10,6 @@
     </ul>
   
     <h2>People lining up</h2>
-
     <div class="list-group">
       {{#each speeches}}
         <span class="list-group-item{{#if status}} active{{/if}}">
@@ -22,7 +21,7 @@
                   ({{timeLeft}}/{{time}})
                 {{/if}}
               </h4>
-            <p class="list-group-item-text">{{subject}}</p>
+            <p class="list-group-item-text">Subject: {{orderChoose}}  /  Keywords: {{subject}}</p>
         </span>
       {{/each}}
     </div>
@@ -57,8 +56,5 @@
 </template>
 
 <template name="ordre">
-    <li class="list-ordre">
-        <h4 class="list-group-item-heading">{{ordre}}</h4>
-        <h4 class="list-group-item-heading">{{time}}</h4>
-    </li>
+        <h4 class="list-group-item-heading"><b>- {{ordre}}</b> : {{time}} mn estimated</h4>
 </template>
