@@ -24,10 +24,10 @@ Template.create.events({
     },
 
     'keyup .ordreDuJour': function(e) {
-        var input = e.target
-        var rank = input.parentElement.getAttribute('rank')
-        var inputs = input.parentElement.parentElement.children
-
+        var input = e.target;
+        var rank = input.parentElement.getAttribute('rank');
+        var inputs = input.parentElement.parentElement.children;
+		
         if (input.value.length > 0) {
             var findInput = false
             for (i = 1; i < inputs.length; i++) {
@@ -43,6 +43,13 @@ Template.create.events({
             }
         }
     },
+	
+	'keyup .ordreDuJourTemps': function(e) {
+		var input = e.target;
+		if(isNaN(input.value) || input.value.length > 3){
+			input.value = input.value.substr(0,input.value.length-1);
+		}
+	},
 
     /** A form submission creates a meeting, invites participants and opens the meeting page */
     'submit form': function(e) {
