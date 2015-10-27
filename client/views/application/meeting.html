@@ -23,10 +23,10 @@
                     <p>
                         <input type="button" class="btn btn-primary btn-lg" role="button" id="talkCancel" value="{{talk}}">
                     {{#if isAnimator}}
-                        <input type="button" class="btn btn-primary btn-lg" role="button" id="waitProceed" value="{{proceed}}" {{disabled}} />
-                        <input type="button" class="btn btn-primary btn-lg" role="button" id="next" value="Next" {{disabled}} />
-                    </p>
+                        <input type="button" class="btn btn-primary btn-lg" role="button" id="waitProceed" value="{{proceed}}" {{disabled}}>
+                        <input type="button" class="btn btn-primary btn-lg" role="button" id="next" value="Next" {{disabled}}>
                     {{/if}}
+                    </p>
                     <div class="list-group">
                         {{#each speeches}}
                         <span class="list-group-item{{#if status}} active{{/if}}">
@@ -81,14 +81,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="invitationModalLabel">New Participant</h4>
+                    <h4 class="modal-title" id="invitationModalLabel">Invite Participants</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="inviteForm">
+                    <form role="form" id="inviteForm">
                         <div class="form-group">
                             <label class="control-label">Your participants' e-mails</label>
                             <div class="participantEmailInput" rank="1">
-                                <input type="email" class="participantsEmails" name="participantsEmails">
+                                <div class="input-group xs-mb-15"><span class="input-group-addon">@</span>
+                                    <input class="participantsEmails form-control" name="participantsEmails" type="email" parsley-type="email">
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
