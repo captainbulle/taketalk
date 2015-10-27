@@ -1,92 +1,108 @@
 <template name="meeting">
-  <h1>{{meeting}}</h1>
-  <div class="col-sm-4 col-md-8">
-	
-	<h2>Agenda</h2>
-	<ul>
-        {{#each ordres}}
-            {{> ordre}}
-        {{/each}}
-    </ul>
-  
-    <h2>People lining up</h2>
-    <div class="list-group">
-      {{#each speeches}}
-        <span class="list-group-item{{#if status}} active{{/if}}">
-              <h4 class="list-group-item-heading">
-                {{user}}
-                {{#if isTimeNull time}}
-                  {{timeString}}
-                {{else}}
-                  ({{timeLeft}}/{{time}})
-                {{/if}}
-              </h4>
-            <p class="list-group-item-text">Subject: {{orderChoose}}  /  Keywords: {{subject}}</p>
-        </span>
-      {{/each}}
-    </div>
-  </div>
-
-  <div class="col-sm-4 col-md-8">
-    <h2>People on this meeting</h2>
-    <div class="list-group">
-      {{#each users}}
-        <span class="list-group-item">
-          <h4 class="list-group-item-heading">{{name}}</h4>
-        </span>
-      {{/each}}
-    </div>
-  </div>
-  
-  <div class="col-sm-4 col-md-8">
-    <p>
-	    <input type="button" class="btn btn-primary btn-lg" role="button" id="talkCancel" value="{{talk}}" />
-    </p>
-    {{#if isAnimator}}
-      <p>
-        <input type="button" class="btn btn-primary btn-lg" role="button" id="waitProceed" value="{{proceed}}" {{disabled}} />
-        <input type="button" class="btn btn-primary btn-lg" role="button" id="next" value="Next" {{disabled}} />
-      </p>
-      <div>
-          <p>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#invitationModal">Invite participants</button>
-          </p>
-
-        <div class="modal fade" id="invitationModal" tabindex="-1" role="dialog" aria-labelledby="invitationModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="invitationModalLabel">New Participant</h4>
-              </div>
-              <div class="modal-body">
-                <form id="inviteForm">
-                  <div class="form-group">
-                    <label class="control-label">Your participants' e-mails</label>
-                    <div class="participantEmailInput" rank="1">
-                      <input type="email" class="participantsEmails" name="participantsEmails">
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="inviteSubmit" type="submit" class="btn btn-primary">Invite</button>
-                  </div>
-                </form>
-              </div>
+<div class="page-head">
+    <h2>{{meeting}}</h2>
+</div>
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="title">Agenda</span></div>
+                <div class="panel-body">
+                    <ul>
+                        {{#each ordres}}
+                            {{> ordre}}
+                        {{/each}}
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-
-      <p>
-        <input type="button" class="btn btn-danger btn-lg" role="button" id="closeMeeting" value="Close meeting" />
-      </p>
-    {{/if}}
-  </div>
-
-
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="title">People lining up</span></div>
+                <div class="panel-body">
+                    <p>
+                        <input type="button" class="btn btn-primary btn-lg" role="button" id="talkCancel" value="{{talk}}">
+                    {{#if isAnimator}}
+                        <input type="button" class="btn btn-primary btn-lg" role="button" id="waitProceed" value="{{proceed}}" {{disabled}} />
+                        <input type="button" class="btn btn-primary btn-lg" role="button" id="next" value="Next" {{disabled}} />
+                    </p>
+                    {{/if}}
+                    <div class="list-group">
+                        {{#each speeches}}
+                        <span class="list-group-item{{#if status}} active{{/if}}">
+                            <h4 class="list-group-item-heading">
+                              {{user}}
+                              {{#if isTimeNull time}}
+                                  {{timeString}}
+                              {{else}}
+                                  ({{timeLeft}}/{{time}})
+                              {{/if}}
+                            </h4>
+                            <p class="list-group-item-text">Subject: {{orderChoose}}  /  Keywords: {{subject}}</p>
+                        </span>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="title">People on this meeting</span></div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        {{#each users}}
+                            <span class="list-group-item">
+                              <h4 class="list-group-item-heading">{{name}}</h4>
+                            </span>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-8">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{#if isAnimator}}
+                        <p>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#invitationModal">Invite participants</button>
+                            <input type="button" class="btn btn-danger btn-lg" role="button" id="closeMeeting" value="Close meeting" />
+                        </p>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="modal fade" id="invitationModal" tabindex="-1" role="dialog" aria-labelledby="invitationModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="invitationModalLabel">New Participant</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="inviteForm">
+                        <div class="form-group">
+                            <label class="control-label">Your participants' e-mails</label>
+                            <div class="participantEmailInput" rank="1">
+                                <input type="email" class="participantsEmails" name="participantsEmails">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button id="inviteSubmit" type="submit" class="btn btn-primary">Invite</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </template>
 
 <template name="ordre">
-        <h4 class="list-group-item-heading"><b>- {{ordre}}</b> : {{time}} mn estimated</h4>
+    <h4 class="list-group-item-heading"><b>- {{ordre}}</b> : {{time}} mn estimated</h4>
 </template>
