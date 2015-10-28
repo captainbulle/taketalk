@@ -2,13 +2,13 @@
   <h1>{{meeting}}</h1>
   <div class="col-sm-4 col-md-8">
 	
-	<h2>Agenda</h2>
-	<ul>
+    <h2>Agenda</h2>
+    <ul>
         {{#each ordres}}
             {{> ordre}}
         {{/each}}
     </ul>
-  
+
     <h2>People lining up</h2>
     <div class="list-group">
       {{#each speeches}}
@@ -25,6 +25,12 @@
         </span>
       {{/each}}
     </div>
+
+    <h2>People on your session</h2>
+    {{#each guests}}
+      {{> guest}}
+    {{/each}}
+
   </div>
 
   <div class="col-sm-4 col-md-8">
@@ -49,8 +55,37 @@
       </p>
       <div>
           <p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#localModal">add local Participant</button>
+          </p>
+          <p>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#invitationModal">Invite participants</button>
           </p>
+
+        <div class="modal fade" id="localModal" tabindex="-1" role="dialog" aria-labelledby="localModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="localModalLabel">New local Participant</h4>
+              </div>
+              <div class="modal-body">
+                <form id="localForm">
+                  <div class="form-group">
+                    <label class="control-label">Participant name</label>
+                    <div class="participantNameInput" rank="1">
+                      <input type="text" class="participantsName" name="participantsName">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="localSubmit" type="submit" class="btn btn-primary">Add</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
         <div class="modal fade" id="invitationModal" tabindex="-1" role="dialog" aria-labelledby="invitationModalLabel">
           <div class="modal-dialog" role="document">
@@ -76,7 +111,6 @@
             </div>
           </div>
         </div>
-      </div>
 
       <p>
         <input type="button" class="btn btn-danger btn-lg" role="button" id="closeMeeting" value="Close meeting" />
@@ -89,4 +123,13 @@
 
 <template name="ordre">
         <h4 class="list-group-item-heading"><b>- {{ordre}}</b> : {{time}} mn estimated</h4>
+</template>
+
+<template name="guest">
+  <div class="input-group guestRemove" guest="{{this}}">
+    <div class="input-group-addon">{{this}}</div>
+    <button type="button" class="btn btn-danger removeGuest">
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    </button>
+  </div>
 </template>
