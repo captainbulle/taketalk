@@ -20,13 +20,17 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><span class="title">People lining up</span></div>
                 <div class="panel-body">
-                    <p>
-                        <input type="button" class="btn btn-primary btn-lg" role="button" id="talkCancel" value="{{talk}}">
-                    {{#if isAnimator}}
-                        <input type="button" class="btn btn-primary btn-lg" role="button" id="waitProceed" value="{{proceed}}" {{disabled}}>
-                        <input type="button" class="btn btn-primary btn-lg" role="button" id="next" value="Next" {{disabled}}>
-                    {{/if}}
-                    </p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="button" class="btn btn-primary btn-rounded" role="button" id="talkCancel" value="{{talk}}">
+                        </div>
+                        {{#if isAnimator}}
+                            <div class="col-md-8 text-right">
+                                <input type="button" class="btn btn-primary btn-rounded" role="button" id="waitProceed" value="Proceed" disabled="">
+                                <input type="button" class="btn btn-primary btn-rounded" role="button" id="next" value="Next" disabled="">
+                            </div>
+                        {{/if}}
+                    </div>
                     <div class="list-group">
                         {{#each speeches}}
                         <span class="list-group-item{{#if status}} active{{/if}}">
@@ -65,9 +69,9 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     {{#if isAnimator}}
-                        <p>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#invitationModal">Invite participants</button>
-                            <input type="button" class="btn btn-danger btn-lg" role="button" id="closeMeeting" value="Close meeting" />
+                        <p class="text-right">
+                            <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#invitationModal">Invite participants</button>
+                            <input type="button" class="btn btn-danger btn-rounded" role="button" id="closeMeeting" value="Close meeting">
                         </p>
                     {{/if}}
                 </div>
