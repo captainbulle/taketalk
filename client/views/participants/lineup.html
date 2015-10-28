@@ -28,14 +28,14 @@
         <div class="control-group">
         <div class="controls">
           {{#if hasGuest}}
-            <label for="guestList"></label>
+            <label for="guestList">Line up as</label>
             <ul id="guestList">
-		      {{#each guests}}
-                {{> guest}}
-              {{/each}}
+		        {{#each guests}}
+                {{> guestButton}}
+            {{/each}}
             </ul>
           {{else}}
-            <button class="btn btn-success" id="lineUp">Line Up</button>
+            <button class="btn btn-success lineUp">Line Up</button>
           {{/if}}
           <button id="cancelLineup" name="cancelLineup" class="btn btn-danger">Cancel</button>
         </div>
@@ -44,9 +44,9 @@
   </form>
 </template>
 
-<template name="guest">
+<template name="guestButton">
   <li class="guest">
-    <button class="btn btn-success">{{name}}</button>
+    <button class="btn btn-success lineUp" value="{{name}}">{{name}}</button>
   </li>
 </template>
 

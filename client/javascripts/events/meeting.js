@@ -74,6 +74,27 @@ Template.meeting.events({
         }
     },
 
+    'keyup .participantsName': function(e) {
+        var input = e.target
+        var rank = input.parentElement.getAttribute('rank')
+        var inputs = input.parentElement.parentElement.children
+
+        if (input.value.length > 0) {
+            var findInput = false
+            for (i = 1; i < inputs.length; i++) {
+                if (inputs[i].getAttribute('rank') == parseInt(rank) + 1) {
+                    findInput = true;
+                }
+            }
+            if (!findInput) {
+                var newInput = input.parentElement.cloneNode(true);
+                newInput.children[0].value = ""
+                newInput.setAttribute('rank', parseInt(rank) + 1)
+                input.parentElement.parentElement.appendChild(newInput)
+            }
+        }
+    },
+
     'submit #inviteForm': function(e) {
         e.preventDefault();
         meetingId = Session.get("meetingId");
@@ -112,6 +133,49 @@ Template.meeting.events({
 
         $(".participantEmailInput[rank!='1']").remove();
         participantsInputs.val("");
+    },
+
+    'submit #localForm': function(e) {
+        e.preventDefault();
+        meetingId = Session.get("meetingId");
+        var dialog = $("#localModal");
+        dialog.modal("hide");
+
+        var nameInputs = $('.participantsName');
+        var participantsName = [];
+
+        for (i = 0; i < nameInputs.length; i++) {
+            if (nameInputs[i].value != "") {
+                participantsName.push(nameInputs[i].value)
+            }
+        }
+
+        //* remove already invited emails from emails to invite
+        var localParticipants = Session.get("guests");
+        if (typeof localParticipants != 'undefined') {
+            for (i = 0; i < localParticipants.length; i++) {
+                for (j = 0; j < participantsName.length; j++) {
+                    if (localParticipants[i] == participantsName[j]) {
+                        participantsName.splice(j,1);
+                    }
+                }
+            }
+            localParticipants = localParticipants.concat(participantsName);
+            Session.set("guests", localParticipants);
+        } else {
+            Session.set("guests", participantsName);
+        }
+
+        $(".participantNameInput[rank!='1']").remove();
+        nameInputs.val("");
+    },
+
+    'click .removeGuest': function(e) {
+        e.preventDefault();
+        guests = Session.get("guests");
+        guestToRemove = $(e.target).parents( ".guestRemove" ).attr("guest");
+        guests.splice(guests.indexOf(guestToRemove),1);
+        Session.set("guests", guests);
     }
 });
 
@@ -129,5 +193,9 @@ Template.meeting.helpers ({
 
     isTimeNull: function (time) {
         return time == '0:00';
+    },
+
+    guests: function () {
+        return Session.get("guests");
     }
 });

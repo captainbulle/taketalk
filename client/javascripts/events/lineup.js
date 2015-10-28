@@ -6,11 +6,12 @@ Template.lineup.events({
         Router.go('/meeting/' + Session.get("meetingId"));
     },
     /** A click on lineup creates a speech and goes back to the meeting page */
-    'click #lineUp': function(e, t) {
+    'click .lineUp': function(e, t) {
         e.preventDefault();
 		var order = t.find("#order").value;
         var submitTime = t.find(".timeButton:checked").value;
-		
+        var user = $(e.target).attr("value");
+
 		// If no keyword -> The subject is "Unknow"
 		if(t.find("#subject").value == ""){
 			t.find("#subject").value = "Unknow";
@@ -56,17 +57,20 @@ Template.lineup.events({
 
 Template.lineup.helpers ({
     guests: function () {
-        var names = new Array(Meteor.user.guests.length);
-        for (i = 0; i < Meteor.user.guests.length; i++) {
-            names[i] = {"name" : Meteor.user.guests[i]};
+        guests = Session.get("guests");
+        var names = new Array(guests.length);
+        for (i = 0; i < guests.length; i++) {
+            names[i] = {"name" : guests[i]};
         }
 
         return names;
-    }
-});
+    },
 
-Template.lineup.helpers ({
-       ordres: function () {
-		   return Session.get("ordres");
-		}
+    ordres: function () {
+        return Session.get("ordres");
+    },
+
+    hasGuest: function () {
+        return Session.get("guests") != 0;
+    }
 });
