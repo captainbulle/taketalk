@@ -1,47 +1,68 @@
 <template name="create">
-  <form class="form-horizontal">
-    <fieldset>
-      <legend>Create a new meeting</legend>
-      <div class="control-group">
-        <label class="control-label" for="animatorName">Your name</label>
-        <div class="controls">
-          <input id="animatorName" name="animatorName" type="text" placeholder="" class="input-xxlarge" required="">
-          <p class="help-block">Required</p>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="animatorEmail">Your e-mail</label>
-        <div class="controls">
-          <input id="animatorEmail" name="animatorEmail" type="email" placeholder="" class="input-xxlarge" required="">
-          <p class="help-block">Required</p>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="meetingName">Your meeting's name</label>
-        <div class="controls">
-          <input id="meetingName" name="meetingName" type="text" placeholder="" class="input-xxlarge" required="">
-          <p class="help-block">Required</p>
-        </div>
-      </div>
-        <div class="control-group">
-            <label class="control-label">Agenda / Estimated duration</label>
-            <div class="controls" rank="1">
-                <input type="text" class="ordreDuJour" name="ordreDuJour"> / 
-                <input type="text" size="5" class="ordreDuJourTemps" name="ordreDuJourTemps"> minutes
+<div class="page-head">
+    <h2>Create a meeting</h2>
+    <ol class="breadcrumb">
+        <li><a href="{{pathFor route='home'}}">Home</a></li>
+        <li class="active">new meeting</li>
+    </ol>
+</div>
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="title">Create a meeting</span></div>
+                <div class="panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="animatorName" class="col-sm-2 control-label">Your name</label>
+                            <div class="col-sm-10">
+                                <input id="animatorName" name="animatorName" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="animatorEmail" class="col-sm-2 control-label">Your e-mail</label>
+                            <div class="col-sm-10">
+                                <div class="input-group"><span class="input-group-addon">@</span>
+                                    <input id="animatorEmail" name="animatorEmail" type="email" parsley-type="email" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="meetingName" class="col-sm-2 control-label">Your meeting's name</label>
+                            <div class="col-sm-10">
+                                <input id="meetingName" name="meetingName" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Agenda</label>
+                            <div class="col-sm-8" rank="1">
+                                <div class="input-group xs-mb-15">
+                                    <span class="input-group-addon"><i class="icon icon-left s7-note2"></i></span>
+                                    <input class="ordreDuJour form-control" name="ordreDuJour" type="text">
+                                </div>
+                            </div>
+                            <div class="col-sm-2" rank="1">
+                                <div class="input-group xs-mb-15">
+                                    <input min="1" parsley-type="number" class="ordreDuJourTemps form-control" name="ordreDuJourTemps" type="number">
+                                    <span class="input-group-addon">min</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Your participants' e-mails</label>
+                            <div class="col-sm-10" rank="1">
+                                <div class="input-group xs-mb-15"><span class="input-group-addon">@</span>
+                                    <input class="participantsEmails form-control" name="participantsEmails" type="email" parsley-type="email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spacer text-right">
+                            <button type="submit" class="btn btn-space btn-primary">Create your meeting</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-      <div class="control-group">
-        <label class="control-label">Your participants' e-mails</label>
-        <div class="controls" rank="1">
-          <input type="email" class="participantsEmails" name="participantsEmails">
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="create"></label>
-        <div class="controls">
-          <button id="create" name="create" class="btn btn-primary">Create your meeting</button>
-        </div>
-      </div>
-    </fieldset>
-  </form>
+    </div>
+</div>
 </template>
