@@ -40,13 +40,13 @@ Template.meeting.events({
     },
 
     /** A click on next goes to the next speech */
-    'click #next': function(e) {
+    'click #next': function() {
         Meteor.clearInterval(timerId);
         Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: {$in: ["ongoing", "pending"]}})._id, {$set: {status: "done"}});
     },
 
     /** A click on closeMeeting closes the meeting */
-    'click #closeMeeting': function(e) {
+    'click #closeMeeting': function() {
         Meetings.update(Session.get("meetingId"), {$set: {status: "done"}});
         Session.set("meetingId", "");
         Session.set("userId", "");
@@ -54,43 +54,35 @@ Template.meeting.events({
     },
 
     'keyup .participantsEmails': function(e) {
-        var input = e.target
-        var rank = input.parentElement.getAttribute('rank')
-        var inputs = input.parentElement.parentElement.children
+        var input = $(e.target);
 
-        if (input.value.length > 0) {
-            var findInput = false
-            for (i = 1; i < inputs.length; i++) {
-                if (inputs[i].getAttribute('rank') == parseInt(rank) + 1) {
-                    findInput = true;
-                }
-            }
-            if (!findInput) {
-                var newInput = input.parentElement.cloneNode(true);
-                newInput.children[0].value = ""
-                newInput.setAttribute('rank', parseInt(rank) + 1)
-                input.parentElement.parentElement.appendChild(newInput)
+        if (input.val().length > 0) {
+            var rank = input.parents(".participantEmailInput")[0].getAttribute('rank');
+            var form = input.parents("#inviteForm");
+            var nextRank = parseInt(rank) + 1;
+
+            if ($(form).find('.participantEmailInput[rank="'+nextRank+'"]').length < 1) {
+                var newInput = $(input.parents(".participantEmailInput")[0].cloneNode(true));
+                newInput.find(".participantsEmails").val("");
+                newInput.attr('rank', nextRank);
+                $(input.parents(".email-input-group")[0]).append(newInput)
             }
         }
     },
 
     'keyup .participantsName': function(e) {
-        var input = e.target
-        var rank = input.parentElement.getAttribute('rank')
-        var inputs = input.parentElement.parentElement.children
+        var input = $(e.target);
 
-        if (input.value.length > 0) {
-            var findInput = false
-            for (i = 1; i < inputs.length; i++) {
-                if (inputs[i].getAttribute('rank') == parseInt(rank) + 1) {
-                    findInput = true;
-                }
-            }
-            if (!findInput) {
-                var newInput = input.parentElement.cloneNode(true);
-                newInput.children[0].value = ""
-                newInput.setAttribute('rank', parseInt(rank) + 1)
-                input.parentElement.parentElement.appendChild(newInput)
+        if (input.val().length > 0) {
+            var rank = input.parents(".participantNameInput")[0].getAttribute('rank');
+            var form = input.parents("#localForm");
+            var nextRank = parseInt(rank) + 1;
+
+            if ($(form).find('.participantNameInput[rank="'+nextRank+'"]').length < 1) {
+                var newInput = $(input.parents(".participantNameInput")[0].cloneNode(true));
+                newInput.find(".participantsName").val("");
+                newInput.attr('rank', nextRank);
+                $(input.parents(".name-input-group")[0]).append(newInput)
             }
         }
     },
