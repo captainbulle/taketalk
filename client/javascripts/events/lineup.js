@@ -13,10 +13,10 @@ Template.lineup.events({
         var submitTime = t.find(".timeButton:checked").value;
         var userId = $(e.target).attr("user-id");
 
-		// If no keyword -> The subject is "Unknow"
-		if(t.find("#subject").value == ""){
-			t.find("#subject").value = "Unknow";
-		}
+		/* // If no keyword -> The subject is "Unknow"
+		if(t.find("#keywords").value == ""){
+			t.find("#keywords").value = "Unknow";
+		}*/
 		
         if (submitTime == 'rapide') {
             submitTime = "intervention rapide"
@@ -27,7 +27,7 @@ Template.lineup.events({
 
         if (isNaN(submitTime)) {
             Speeches.insert({
-                subject: t.find("#subject").value,
+                subject: t.find("#keywords").value,
                 timeLeft: 0,
                 time: 0,
 				orderChoose: order,
@@ -38,7 +38,7 @@ Template.lineup.events({
             });
         } else {
             Speeches.insert({
-                subject: t.find("#subject").value,
+                subject: t.find("#keywords").value,
                 timeLeft: 0,
                 time: submitTime,
 				orderChoose: order,
