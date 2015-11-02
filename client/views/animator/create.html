@@ -12,36 +12,30 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><span class="title">Create a meeting</span></div>
                 <div class="panel-body">
-                    <form role="form" class="form-horizontal">
+                    <form role="form">
                         <div class="form-group">
-                            <label for="animatorName" class="col-sm-2 control-label">Your name</label>
-                            <div class="col-sm-10">
-                                <input id="animatorName" name="animatorName" type="text" class="form-control" required>
+                            <label for="animatorName">Your name</label>
+                            <input id="animatorName" name="animatorName" type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="animatorEmail">Your e-mail</label>
+                            <div class="input-group"><span class="input-group-addon">@</span>
+                                <input id="animatorEmail" name="animatorEmail" type="email" parsley-type="email" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="animatorEmail" class="col-sm-2 control-label">Your e-mail</label>
-                            <div class="col-sm-10">
-                                <div class="input-group"><span class="input-group-addon">@</span>
-                                    <input id="animatorEmail" name="animatorEmail" type="email" parsley-type="email" class="form-control" required>
-                                </div>
-                            </div>
+                            <label for="meetingName">Your meeting's name</label>
+                            <input id="meetingName" name="meetingName" type="text" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="meetingName" class="col-sm-2 control-label">Your meeting's name</label>
-                            <div class="col-sm-10">
-                                <input id="meetingName" name="meetingName" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Agenda</label>
-                            <div class="col-sm-7" rank="1">
+                            <label>Agenda</label>
+                            <div rank="1">
                                 <div class="input-group xs-mb-15">
                                     <span class="input-group-addon"><i class="icon icon-left s7-note2"></i></span>
                                     <input class="ordreDuJour form-control" name="ordreDuJour" type="text">
                                 </div>
                             </div>
-                            <div class="col-sm-3" rank="1">
+                            <div rank="1">
                                 <div class="input-group xs-mb-15">
                                     <input min="1" parsley-type="number" class="ordreDuJourTemps form-control" name="ordreDuJourTemps" type="number">
                                     <span class="input-group-addon">min</span>
@@ -49,8 +43,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Your participants' e-mails</label>
-                            <div class="col-sm-10" rank="1">
+                            <label>Your participants' e-mails</label>
+                            <div rank="1">
                                 <div class="input-group xs-mb-15"><span class="input-group-addon">@</span>
                                     <input class="participantsEmails form-control" name="participantsEmails" type="email" parsley-type="email">
                                 </div>
