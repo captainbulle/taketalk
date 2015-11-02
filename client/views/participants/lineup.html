@@ -1,52 +1,63 @@
 <template name="lineup">
-  <form class="form-horizontal">
-    <fieldset>
-        <legend>Line up to talk</legend>
-        <div class="control-group">
-        <label class="control-label" for="subject">Order : </label>
-		<select name="order" id="order" for="order">
-		{{#each ordres}}
-            {{> selectOrdre}}
-        {{/each}}
-		</select>
-        <label class="control-label" for="keywords">Mots clé</label>
-        <div class="controls">
-          <input id="subject" maxlength="50" name="subject" type="text" class="input-xlarge">
+    <div class="panel panel-default panel-heading-fullwidth panel-primary">
+        <div class="panel-heading"><span class="title">Line up to talk</span></div>
+        <div class="panel-body">
+            <form role="form">
+                <div class="form-group">
+                    <label for="order">Order</label>
+                    <select name="order" id="order" class="form-control">
+                        {{#each ordres}}
+                            {{> selectOrdre}}
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="keywords">Keywords</label>
+                    <input id="keywords" name="keywords" type="text" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Speach time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <div class="am-radio inline">
+                        <input type="radio" name="speachtime" id="300" value="300" checked="">
+                        <label for="300">5 minutes</label>
+                    </div>
+                    <div class="am-radio inline">
+                        <input type="radio" name="speachtime" id="600" value="600">
+                        <label for="600">10 minutes</label>
+                    </div>
+                    <div class="am-radio inline">
+                        <input type="radio" name="speachtime" id="plus" value="plus">
+                        <label for="plus">10 minutes +</label>
+                    </div>
+                    <div class="am-radio inline">
+                        <input type="radio" name="speachtime" id="rapide" value="rapide">
+                        <label for="rapide">Quick line up</label>
+                    </div>
+                </div>
+
+                <div class="spacer text-right">
+                    {{#if hasGuest}}
+                        <p>Line up as</p>
+                        <ol id="guestList">
+                            {{#each guests}}
+                                {{> guestButton}}
+                            {{/each}}
+                        </ol>
+                    {{else}}
+                        <button type="submit" class="btn btn-space btn-success lineUp">Line Up</button>
+                    {{/if}}
+                    <button id="cancelLineup" name="cancelLineup" class="btn btn-space btn-danger">Cancel</button>
+                </div>
+            </form>
         </div>
-      </div>
-        <div class="control-group">
-        <label class="control-label" for="time">temps de parole :</label>
-        <div class="controls">
-          <div id="time">
-            <input class="timeButton" type="radio" name="time" value="300" checked>5 minutes
-            <input class="timeButton" type="radio" name="time" value="600">10 minutes
-            <input class="timeButton" type="radio" name="time" value="plus">plus de 10 minutes
-            <input class="timeButton" type="radio" name="time" value="rapide">intervention rapide
-          </div>
-        </div>
-      </div>
-        <div class="control-group">
-        <div class="controls">
-          {{#if hasGuest}}
-            <label for="guestList">Line up as</label>
-            <ul id="guestList">
-		        {{#each guests}}
-                {{> guestButton}}
-            {{/each}}
-            </ul>
-          {{else}}
-            <button class="btn btn-success lineUp">Line Up</button>
-          {{/if}}
-          <button id="cancelLineup" name="cancelLineup" class="btn btn-danger">Cancel</button>
-        </div>
-      </div>
-    </fieldset>
-  </form>
+    </div>
 </template>
 
 <template name="guestButton">
   <li class="guest">
-    <button class="btn btn-success lineUp" value="{{name}}">{{name}}</button>
+    <button type="submit" class="btn btn-space btn-success lineUp" value="{{name}}">{{name}}</button>
   </li>
 </template>
 
