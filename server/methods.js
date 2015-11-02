@@ -11,4 +11,10 @@ Meteor.methods({
     this.unblock();
     Email.send({to: to, from: from, subject: subject, text: text});
   },
+
+  resetAll: function() {
+      Speeches.remove({});
+      Users.remove({});
+      Meetings.remove({});
+  }
 });

@@ -5,12 +5,13 @@ Template.lineup.events({
         e.preventDefault();
         Router.go('/meeting/' + Session.get("meetingId"));
     },
+
     /** A click on lineup creates a speech and goes back to the meeting page */
     'click .lineUp': function(e, t) {
         e.preventDefault();
 		var order = t.find("#order").value;
         var submitTime = t.find(".timeButton:checked").value;
-        var user = $(e.target).attr("value");
+        var userId = $(e.target).attr("user-id");
 
 		// If no keyword -> The subject is "Unknow"
 		if(t.find("#subject").value == ""){
@@ -32,10 +33,9 @@ Template.lineup.events({
 				orderChoose: order,
                 timeString: submitTime,
                 status: "pending",
-                user: Session.get("userId"),
+                user: userId,
                 meeting: Session.get("meetingId")
             });
-            console.log('not a number')
         } else {
             Speeches.insert({
                 subject: t.find("#subject").value,
@@ -44,13 +44,10 @@ Template.lineup.events({
 				orderChoose: order,
                 timeString: "",
                 status: "pending",
-                user: Session.get("userId"),
+                user: userId,
                 meeting: Session.get("meetingId")
             });
-            console.log('number')
         }
-
-
         Router.go('/meeting/' + Session.get("meetingId"));
     }
 });
@@ -71,6 +68,10 @@ Template.lineup.helpers ({
     },
 
     hasGuest: function () {
-        return Session.get("guests") != 0;
+        if (Session.get("guests") === undefined) {
+            return false;
+        } else {
+            return Session.get("guests").length > 0;
+        }
     }
 });
