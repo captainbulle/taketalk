@@ -160,6 +160,16 @@ Template.meeting.events({
 
         $(".participantNameInput[rank!='1']").remove();
         nameInputs.val("");
+
+        for (i = 0; i < participantsName.length; i++) {
+            Users.insert({
+                name: participantsName[i],
+                type: "",
+                status: "online",
+                meeting: meetingId,
+                _id: participantsName[i]
+            });
+        }
     },
 
     'click .removeGuest': function(e) {
