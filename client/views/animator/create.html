@@ -12,7 +12,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><span class="title">Create a meeting</span></div>
                 <div class="panel-body">
-                    <form role="form">
+                    <form role="form" id="create-form">
                         <div class="form-group">
                             <label for="animatorName">Your name</label>
                             <input id="animatorName" name="animatorName" type="text" class="form-control" required>
@@ -29,24 +29,22 @@
                         </div>
                         <div class="form-group">
                             <label>Agenda</label>
-                            <div rank="1">
+                            <div class="agenda-group" rank="1">
                                 <div class="input-group xs-mb-15">
                                     <span class="input-group-addon"><i class="icon icon-left s7-note2"></i></span>
-                                    <input class="ordreDuJour form-control" name="ordreDuJour" type="text">
+                                    <input class="agenda-name-input form-control" name="ordreDuJour" type="text">
                                 </div>
-                            </div>
-                            <div rank="1">
                                 <div class="input-group xs-mb-15">
-                                    <input min="1" parsley-type="number" class="ordreDuJourTemps form-control" name="ordreDuJourTemps" type="number">
+                                    <input min="1" parsley-type="number" class="agenda-time-input form-control" name="ordreDuJourTemps" type="number">
                                     <span class="input-group-addon">min</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Your participants' e-mails</label>
-                            <div rank="1">
+                            <div class="participant-email-group" rank="1">
                                 <div class="input-group xs-mb-15"><span class="input-group-addon">@</span>
-                                    <input class="participantsEmails form-control" name="participantsEmails" type="email" parsley-type="email">
+                                    <input class="participant-email-input form-control" name="participantsEmails" type="email" parsley-type="email">
                                 </div>
                             </div>
                         </div>

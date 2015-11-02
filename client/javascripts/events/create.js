@@ -2,54 +2,40 @@
 Template.create.events({
 
     /** create new input when the last is filled */
-    'keyup .participantsEmails': function(e) {
-        var input = e.target
-        var rank = input.parentElement.getAttribute('rank')
-        var inputs = input.parentElement.parentElement.children
+    'keyup .participant-email-input': function(e) {
+        var input = $(e.target);
 
-        if (input.value.length > 0) {
-            var findInput = false
-            for (i = 1; i < inputs.length; i++) {
-                if (inputs[i].getAttribute('rank') == parseInt(rank) + 1) {
-                    findInput = true;
-                }
-            }
-            if (!findInput) {
-                var newInput = input.parentElement.cloneNode(true);
-                newInput.children[0].value = ""
-                newInput.setAttribute('rank', parseInt(rank) + 1)
-                input.parentElement.parentElement.appendChild(newInput)
+        if (input.val().length > 0) {
+            var rank = input.parents(".participant-email")[0].getAttribute('rank');
+            var form = input.parents("#create-form");
+            var nextRank = parseInt(rank) + 1;
+
+            if ($(form).find('.participant-email[rank="'+nextRank+'"]').length < 1) {
+                var newInput = $(input.parents(".participant-email")[0].cloneNode(true));
+                newInput.find(".participant-email-input").val("");
+                newInput.attr('rank', nextRank);
+                $(input.parents(".participant-email-group")[0]).append(newInput)
             }
         }
     },
 
-    'keyup .ordreDuJour': function(e) {
-        var input = e.target;
-        var rank = input.parentElement.getAttribute('rank');
-        var inputs = input.parentElement.parentElement.children;
-		
-        if (input.value.length > 0) {
-            var findInput = false
-            for (i = 1; i < inputs.length; i++) {
-                if (inputs[i].getAttribute('rank') == parseInt(rank) + 1) {
-                    findInput = true;
-                }
-            }
-            if (!findInput) {
-                var newInput = input.parentElement.cloneNode(true);
-                newInput.children[0].value = ""
-                newInput.setAttribute('rank', parseInt(rank) + 1)
-                input.parentElement.parentElement.appendChild(newInput)
+    'keyup .agenda-name-input': function(e) {
+        var input = $(e.target);
+
+        if (input.val().length > 0) {
+            var rank = input.parents(".agenda-group")[0].getAttribute('rank');
+            var form = input.parents("#create-form");
+            var nextRank = parseInt(rank) + 1;
+
+            if ($(form).find('.agenda-group[rank="'+nextRank+'"]').length < 1) {
+                var newInput = $(input.parents(".agenda-group")[0].cloneNode(true));
+                newInput.find(".agenda-name-input").val("");
+                newInput.find(".agenda-time-input").val("");
+                newInput.attr('rank', nextRank);
+                $(input.parents(".agenda-group")[0]).after(newInput)
             }
         }
     },
-	
-	'keyup .ordreDuJourTemps': function(e) {
-		var input = e.target;
-		if(isNaN(input.value) || input.value.length > 3){
-			input.value = input.value.substr(0,input.value.length-1);
-		}
-	},
 
     /** A form submission creates a meeting, invites participants and opens the meeting page */
     'submit form': function(e) {
@@ -72,6 +58,9 @@ Template.create.events({
                 ordreTimes.push(ordreTimeInputs[i].value)
             }
         }
+        console.log('emails :'+participantsEmails);
+        console.log('ordre:'+ordres);
+        console.log('times:'+ordreTimes);
 
         var meetingId = Meetings.insert({   name: e.target.meetingName.value,
                                             status: "ongoing",
