@@ -186,8 +186,8 @@ Template.meeting.helpers ({
         var ordres = Session.get("ordres");
         var times = Session.get("ordreTimes");
         var ordreAndTimes = new Array(ordres.length);
-        for (i = 0; i < ordres.length; i++) {
-            ordreAndTimes[i] = {"ordre" : ordres [i], "time" :times [i]};
+        for (var i = 0; i < ordres.length; i++) {
+            ordreAndTimes[i] = {"ordre" : ordres[i], "time" :times[i]};
         }
 
         return ordreAndTimes;

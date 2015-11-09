@@ -40,22 +40,22 @@ Template.create.events({
     /** A form submission creates a meeting, invites participants and opens the meeting page */
     'submit form': function(e) {
         e.preventDefault();
-        var ordreInputs = e.target.ordreDuJour
-        var ordres = []
-        var ordreTimeInputs = e.target.ordreDuJourTemps
-        var ordreTimes = []
-        var participantsInputs = e.target.participantsEmails
-        var participantsEmails = []
+        var ordreInputs = e.target.ordreDuJour;
+        var ordres = [];
+        var ordreTimeInputs = e.target.ordreDuJourTemps;
+        var ordreTimes = [];
+        var participantsInputs = e.target.participantsEmails;
+        var participantsEmails = [];
 
         for (i = 0; i < participantsInputs.length; i++) {
             if (participantsInputs[i].value != "") {
-                participantsEmails.push(participantsInputs[i].value)
+                participantsEmails.push(participantsInputs[i].value);
             }
         }
         for (i = 0; i < ordreInputs.length; i++) {
             if (ordreInputs[i].value != "") {
-                ordres.push(ordreInputs[i].value)
-                ordreTimes.push(ordreTimeInputs[i].value)
+                ordres.push(ordreInputs[i].value);
+                ordreTimes.push(ordreTimeInputs[i].value);
             }
         }
         console.log('emails :'+participantsEmails);

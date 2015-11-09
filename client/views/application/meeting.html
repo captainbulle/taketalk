@@ -138,7 +138,7 @@
 </template>
 
 <template name="ordre">
-    <h4 class="list-group-item-heading"><b>- {{ordre}}</b> : {{time}} mn estimated</h4>
+    <h4 class="list-group-item-heading"><b>{{ordre}}</b> - {{#if time}}{{time}} min estimated{{else}} no duration scheduled{{/if}}</h4>
 </template>
 
 <template name="guest">

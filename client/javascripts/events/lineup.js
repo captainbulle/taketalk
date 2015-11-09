@@ -56,6 +56,7 @@ Template.lineup.helpers ({
     guests: function () {
         guests = Session.get("guests");
         var names = new Array(guests.length);
+
         for (i = 0; i < guests.length; i++) {
             names[i] = {"name" : guests[i]};
         }
@@ -70,8 +71,7 @@ Template.lineup.helpers ({
     hasGuest: function () {
         if (Session.get("guests") === undefined) {
             return false;
-        } else {
-            return Session.get("guests").length > 0;
         }
+        return Session.get("guests").length > 0;
     }
 });
