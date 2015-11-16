@@ -73,5 +73,9 @@ Template.lineup.helpers ({
             return false;
         }
         return Session.get("guests").length > 0;
+    },
+
+    currentUser: function(){
+        return Session.get("userId");
     }
 });

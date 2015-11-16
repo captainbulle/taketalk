@@ -15,3 +15,9 @@ body {
 .title-font{
   font-family: "pacifio", sans-serif;
 }
+
+#qrcode {
+  width: 160px;
+  height: 160px;
+  margin-top: 15px;
+}

@@ -15,3 +15,4 @@ Template.join.events({
         Router.go('/meeting/' + Session.get("meetingId"));
     }
 });
+

@@ -201,3 +201,24 @@ Template.meeting.helpers ({
         return Session.get("guests");
     }
 });
+$(document).ready(function(){
+
+    var meetingId = Session.get("meetingId");
+    var userId = Users.insert({
+        name: 'participant pending',
+        email: "temp@taketalk.fr",
+        type: "participant",
+        status: "pending",
+        meeting: meetingId
+    });
+    //new QRCode(document.getElementById("qrcode"), "http://taketalk.meteor.com/join/" + meetingId + "/" + userId);
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "http://taketalk.meteor.com/join/" + meetingId + "/" + userId,
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    //qrcode.makeCode("http://taketalk.meteor.com/join/" + meetingId + "/" + userId);
+});
