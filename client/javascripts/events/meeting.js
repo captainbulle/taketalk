@@ -178,6 +178,7 @@ Template.meeting.events({
         guestToRemove = $(e.target).parents( ".guestRemove" ).attr("guest");
         guests.splice(guests.indexOf(guestToRemove),1);
         Session.set("guests", guests);
+        Users.remove({_id: guestToRemove})
     }
 });
 
@@ -199,8 +200,16 @@ Template.meeting.helpers ({
 
     guests: function () {
         return Session.get("guests");
+    },
+
+    isSessionGuest: function (name) {
+        var guests = Session.get("guests");
+        if (guests !== undefined) {
+            return (guests.indexOf(name) >= 0);
+        }
+        return false;
     }
-});
+});/*
 $(document).ready(function(){
 
     var meetingId = Session.get("meetingId");
@@ -221,4 +230,4 @@ $(document).ready(function(){
         correctLevel: QRCode.CorrectLevel.H
     });
     //qrcode.makeCode("http://taketalk.meteor.com/join/" + meetingId + "/" + userId);
-});
+});*/
