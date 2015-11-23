@@ -145,7 +145,7 @@ Template.meeting.events({
         }
 
         //* remove already invited emails from emails to invite
-        var invitedParticipants = Session.get('invitedParticipants')
+        var invitedParticipants = Session.get('invitedParticipants');
         if (typeof invitedParticipants != 'undefined') {
             for (i = 0; i < invitedParticipants.length; i++) {
                 for (j = 0; j < participantsEmails.length; j++) {
@@ -162,11 +162,14 @@ Template.meeting.events({
 
         for(var i = 0; i < participantsEmails.length; i++) {
             userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
+            console.log('add user id ' + userId);
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation', 'You are invited to a session of TakeTalk. \nPlease follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId);
+            console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId);
         }
 
         $(".participantEmailInput[rank!='1']").remove();
         participantsInputs.val("");
+        console.log(Meetings.find({}).fetch())
     },
 
     'submit #localForm': function(e) {
@@ -232,13 +235,13 @@ Template.meeting.events({
 
 Template.meeting.helpers ({
     ordres: function () {
-        var ordres = Session.get("ordres");
-        var times = Session.get("ordreTimes");
+        var meeting = Meetings.findOne({_id: Session.get("meetingId")});
+        var ordres = meeting.ordres;
+        var times = meeting.ordreTimes;
         var ordreAndTimes = new Array(ordres.length);
         for (var i = 0; i < ordres.length; i++) {
             ordreAndTimes[i] = {"ordre" : ordres[i], "time" :times[i]};
         }
-
         return ordreAndTimes;
     },
 
@@ -265,7 +268,9 @@ Template.meeting.helpers ({
 	 sortedSpeeches: function() {
       return Speeches.find({}, {sort: {rank: 1}})
     }
-});/*
+});
+
+/*
 $(document).ready(function(){
 
     var meetingId = Session.get("meetingId");
@@ -276,6 +281,8 @@ $(document).ready(function(){
         status: "pending",
         meeting: meetingId
     });
+    console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId);
+
     //new QRCode(document.getElementById("qrcode"), "http://taketalk.meteor.com/join/" + meetingId + "/" + userId);
     var qrcode = new QRCode(document.getElementById("qrcode"), {
         text: "http://taketalk.meteor.com/join/" + meetingId + "/" + userId,

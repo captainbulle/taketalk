@@ -59,27 +59,44 @@ Template.create.events({
             }
         }
 
-        var meetingId = Meetings.insert({   name: e.target.meetingName.value,
-                                            status: "ongoing",
-                                            ordres: ordres,
-                                            ordreTimes: ordreTimes});
-        var userId = Users.insert({ name: e.target.animatorName.value,
-                                    email: e.target.animatorEmail.value,
-                                    type: "animator",
-                                    status: "online",
-                                    meeting: meetingId});
+        var pass = Math.floor((Math.random() * 10000) + 1);
+        if(pass < 10){
+            pass = '000' + pass;
+        }else if(pass < 100){
+            pass = '00' + pass;
+        }else if(pass < 1000){
+            pass = '0' + pass;
+        }
+
+        var meetingId = Meetings.insert({
+            name: e.target.meetingName.value,
+            status: "ongoing",
+            ordres: ordres,
+            ordreTimes: ordreTimes,
+            password: pass
+        });
+
+        var userId = Users.insert({
+            name: e.target.animatorName.value,
+            email: e.target.animatorEmail.value,
+            type: "animator",
+            status: "online",
+            meeting: meetingId
+        });
+
         localStorage.setItem(meetingId, meetingId);
         Session.set("meetingId", meetingId);
         Session.set("userId", userId);
         Session.set("ordres", ordres);
         Session.set("ordreTimes", ordreTimes);
         Meteor.call('sendEmail',
-                    e.target.animatorEmail.value,
-                    'noreply@taketalk.com',
-                    'TakeTalk session created',
-                    'You have just created a session of TakeTalk. \nHere is the link : taketalk.meteor.com/join/'
-                    + meetingId +
-                    "/" + userId);
+            e.target.animatorEmail.value,
+            'noreply@taketalk.com',
+            'TakeTalk session created',
+            'You have just created a session of TakeTalk. \n' +
+            'Here is the link : taketalk.meteor.com/join/' + meetingId + '/' + userId +
+            'If you quit the meeting and want to return here is the password : ' + meetingId.password
+        );
 
         for(var i = 0; i < participantsEmails.length; i++) {
             userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});

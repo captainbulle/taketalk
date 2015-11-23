@@ -124,8 +124,10 @@
                     <h4 class="modal-title" id="invitationModalLabel">Invite Participants</h4>
                 </div>
                 <div class="modal-body">
+                    <!--
                     <h3>By QR Code</h3>
                     <div id="qrcode"></div>
+                     -->
                     <h3>By email address</h3>
                     <form role="form" id="inviteForm">
                         <div class="form-group email-input-group">
@@ -146,6 +148,22 @@
         </div>
     </div>
 </div>
+
+  <div>
+    <div class="modal fade" id="speech-delete-modal" tabindex="-1" role="dialog" aria-labelledby="speech-delete-label">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="speech-delete-label">Invite Participants</h4>
+          </div>
+          <div class="modal-body">
+            Votre speech a été supprimé
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="ordre">
