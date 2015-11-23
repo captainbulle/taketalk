@@ -89,7 +89,8 @@ Template.meeting.events({
 
     'submit #inviteForm': function(e) {
         e.preventDefault();
-        meetingId = Session.get("meetingId");
+        var meetingId = Session.get("meetingId");
+        var meeting = Meetings.findOne({_id:meetingId});
         var dialog = $("#invitationModal")
         dialog.modal("hide");
 
@@ -118,10 +119,21 @@ Template.meeting.events({
             Session.set('invitedParticipants', participantsEmails)
         }
 
+        var userId = "";
         for(var i = 0; i < participantsEmails.length; i++) {
-            userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
-            Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation', 'You are invited to a session of TakeTalk. \nPlease follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId);
-            console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId);
+            userId = Users.insert({
+                name: 'participant pending',
+                email: participantsEmails[i],
+                type: "participant",
+                status: "pending",
+                meeting: meetingId
+            });
+            Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
+                'You are invited to a session of TakeTalk. \n' +
+                'Please follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
+                'If you quit the meeting and want to return here is the password : ' + meeting.password
+            );
+            console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId + ' -> ' + meeting.password);
         }
 
         $(".participantEmailInput[rank!='1']").remove();
@@ -194,8 +206,9 @@ Template.meeting.helpers ({
         var meeting = Meetings.findOne({_id: Session.get("meetingId")});
         var ordres = meeting.ordres;
         var times = meeting.ordreTimes;
-        var ordreAndTimes = new Array(ordres.length);
-        for (var i = 0; i < ordres.length; i++) {
+        var lengthOrdres = ordres.length;
+        var ordreAndTimes = new Array(lengthOrdres);
+        for (var i = 0; i < lengthOrdres; i++) {
             ordreAndTimes[i] = {"ordre" : ordres[i], "time" :times[i]};
         }
         return ordreAndTimes;
@@ -220,7 +233,8 @@ Template.meeting.helpers ({
     isAnimator: function() {
         return Users.findOne({_id: Session.get("userId")}).type == "animator";
     }
-});/*
+});
+/*
 $(document).ready(function(){
 
     var meetingId = Session.get("meetingId");
@@ -243,4 +257,4 @@ $(document).ready(function(){
         correctLevel: QRCode.CorrectLevel.H
     });
     //qrcode.makeCode("http://taketalk.meteor.com/join/" + meetingId + "/" + userId);
-});*/
+}); //*/

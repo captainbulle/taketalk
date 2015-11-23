@@ -94,13 +94,17 @@ Template.create.events({
             'noreply@taketalk.com',
             'TakeTalk session created',
             'You have just created a session of TakeTalk. \n' +
-            'Here is the link : taketalk.meteor.com/join/' + meetingId + '/' + userId +
-            'If you quit the meeting and want to return here is the password : ' + meetingId.password
+            'Here is the link : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
+            'If you quit the meeting and want to return here is the password : ' + pass
         );
 
         for(var i = 0; i < participantsEmails.length; i++) {
             userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
-            Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation', 'You are invited to a session of TakeTalk. \nPlease follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId);
+            Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
+                'You are invited to a session of TakeTalk. \n' +
+                'Please follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
+                'If you quit the meeting and want to return here is the password : ' + pass
+            );
         }
         Router.go('/meeting/' + meetingId);
     }
