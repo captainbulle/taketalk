@@ -11,8 +11,16 @@ Template.join.events({
     /** A form submission updates the user's name and opens the meeting page */
     'submit form': function(e) {
         e.preventDefault();
-        Users.update(Session.get("userId"), {$set: {name: e.target.participantName.value, status: "online"}});
-        Router.go('/meeting/' + Session.get("meetingId"));
+        if(Session.get("meetingId").password == e.target.password){
+            Users.update(Session.get("userId"), {$set: {name: e.target.participantName.value, status: "online"}});
+            Router.go('/meeting/' + Session.get("meetingId"));
+        }
+        Session.set("joinError", 'The password you entered is incorrect');
+        Router.go('/join/'+ Session.get("meetingId") +'/' + Session.get("userId"));
     }
+});
+
+Template.join.helpers({
+    joinError: function() { return Session.get('joinError'); }
 });
 
