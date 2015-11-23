@@ -31,9 +31,9 @@
                             </div>
                         {{/if}}
                     </div>
-                    <div class="list-group">
+                    <div id="list-group">
                         {{#each speeches}}
-                        <div class="list-group-item{{#if status}} active{{/if}} speech-span" speech-id="{{id}}">
+                        <div class="list-group-item{{#if status}} active{{/if}} speech-span">
                             <h4 class="list-group-item-heading">
                               {{user}}
                               {{#if isTimeNull time}}
