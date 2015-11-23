@@ -120,11 +120,13 @@ Template.meeting.events({
 
         for(var i = 0; i < participantsEmails.length; i++) {
             userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
+            console.log('add user id ' + userId);
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation', 'You are invited to a session of TakeTalk. \nPlease follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId);
         }
 
         $(".participantEmailInput[rank!='1']").remove();
         participantsInputs.val("");
+        console.log(Meetings.find({}).fetch())
     },
 
     'submit #localForm': function(e) {
@@ -219,7 +221,9 @@ Template.meeting.helpers ({
     isAnimator: function() {
         return Users.findOne({_id: Session.get("userId")}).type == "animator";
     }
-});/*
+});
+
+/*
 $(document).ready(function(){
 
     var meetingId = Session.get("meetingId");
