@@ -58,9 +58,6 @@ Template.create.events({
                 ordreTimes.push(ordreTimeInputs[i].value);
             }
         }
-        console.log('emails :'+participantsEmails);
-        console.log('ordre:'+ordres);
-        console.log('times:'+ordreTimes);
 
         var pass = Math.floor((Math.random() * 10000) + 1);
         if(pass < 10){

@@ -76,6 +76,6 @@ Template.lineup.helpers ({
     },
 
     currentUser: function(){
-        return Session.get("userId");
+        return Users.findOne({_id: Session.get("userId")});
     }
 });

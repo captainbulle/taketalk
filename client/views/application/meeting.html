@@ -26,14 +26,14 @@
                         </div>
                         {{#if isAnimator}}
                             <div class="col-md-8 text-right">
-                                <input type="button" class="btn btn-primary" role="button" id="waitProceed" value="Proceed" {{disabled}}>
+                                <input type="button" class="btn btn-primary" role="button" id="waitProceed" value="{{proceed}}" {{disabled}}>
                                 <input type="button" class="btn btn-primary" role="button" id="next" value="Next" {{disabled}}>
                             </div>
                         {{/if}}
                     </div>
                     <div class="list-group">
                         {{#each speeches}}
-                        <span class="list-group-item{{#if status}} active{{/if}}">
+                        <div class="list-group-item{{#if status}} active{{/if}} speech-span" speech-id="{{id}}">
                             <h4 class="list-group-item-heading">
                               {{user}}
                               {{#if isTimeNull time}}
@@ -43,7 +43,12 @@
                               {{/if}}
                             </h4>
                             <p class="list-group-item-text">Subject: {{orderChoose}}  /  Keywords: {{subject}}</p>
-                        </span>
+                            {{#if isAnimator}}
+                              <button type="button" class="btn btn-danger removeSpeech">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                              </button>
+                            {{/if}}
+                        </div>
                         {{/each}}
                     </div>
                 </div>
@@ -57,6 +62,9 @@
                         {{#each users}}
                             <span class="list-group-item">
                               <h4 class="list-group-item-heading">{{name}}</h4>
+                              {{#if isSessionGuest name}}
+                                {{>guest}}
+                              {{/if}}
                             </span>
                         {{/each}}
                     </div>
@@ -147,8 +155,7 @@
 </template>
 
 <template name="guest">
-  <div class="input-group guestRemove" guest="{{this}}">
-    <div class="input-group-addon">{{this}}</div>
+  <div class="input-group guestRemove" guest="{{name}}">
     <button type="button" class="btn btn-danger removeGuest">
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </button>

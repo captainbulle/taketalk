@@ -41,12 +41,15 @@
                 {{#if hasGuest}}
                     <p>Line up as</p>
                     <ol id="guestList">
+                        <li>
+                          <button type="submit" class="btn btn-space btn-success lineUp" user-id="{{ currentUser._id }}">{{ currentUser.name }}</button>
+                        </li>
                         {{#each guests}}
                             {{> guestButton}}
                         {{/each}}
                     </ol>
                 {{else}}
-                    <button type="submit" class="btn btn-space btn-success lineUp" user-id="{{ currentUser }}">Line Up</button>
+                    <button type="submit" class="btn btn-space btn-success lineUp" user-id="{{ currentUser._id }}">Line Up</button>
                 {{/if}}
                 <button id="cancelLineup" name="cancelLineup" class="btn btn-space btn-danger">Cancel</button>
             </div>
@@ -57,7 +60,7 @@
 
 <template name="guestButton">
   <li class="guest">
-    <button type="submit" class="btn btn-space btn-success lineUp" user-id="{{_id}}">{{name}}</button>
+    <button type="submit" class="btn btn-space btn-success lineUp" user-id="{{name}}">{{name}}</button>
   </li>
 </template>
 
