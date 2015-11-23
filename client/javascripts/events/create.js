@@ -58,9 +58,6 @@ Template.create.events({
                 ordreTimes.push(ordreTimeInputs[i].value);
             }
         }
-        console.log('emails :'+participantsEmails);
-        console.log('ordre:'+ordres);
-        console.log('times:'+ordreTimes);
 
         var meetingId = Meetings.insert({   name: e.target.meetingName.value,
                                             status: "ongoing",

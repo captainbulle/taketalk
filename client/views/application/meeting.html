@@ -33,7 +33,7 @@
                     </div>
                     <div class="list-group">
                         {{#each speeches}}
-                        <span class="list-group-item{{#if status}} active{{/if}}">
+                        <div class="list-group-item{{#if status}} active{{/if}} speech-span" speech-id="{{id}}">
                             <h4 class="list-group-item-heading">
                               {{user}}
                               {{#if isTimeNull time}}
@@ -43,7 +43,12 @@
                               {{/if}}
                             </h4>
                             <p class="list-group-item-text">Subject: {{orderChoose}}  /  Keywords: {{subject}}</p>
-                        </span>
+                            {{#if isAnimator}}
+                              <button type="button" class="btn btn-danger removeSpeech">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                              </button>
+                            {{/if}}
+                        </div>
                         {{/each}}
                     </div>
                 </div>

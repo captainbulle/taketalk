@@ -179,6 +179,12 @@ Template.meeting.events({
         guests.splice(guests.indexOf(guestToRemove),1);
         Session.set("guests", guests);
         Users.remove({_id: guestToRemove})
+    },
+
+    'click .removeSpeech': function(e) {
+        e.preventDefault();
+        var speechId = $(e.target).parents( ".speech-span" ).attr("speech-id");
+        Speeches.remove({_id: speechId});
     }
 });
 
@@ -208,6 +214,10 @@ Template.meeting.helpers ({
             return (guests.indexOf(name) >= 0);
         }
         return false;
+    },
+
+    isAnimator: function() {
+        return Users.findOne({_id: Session.get("userId")}).type == "animator";
     }
 });/*
 $(document).ready(function(){
