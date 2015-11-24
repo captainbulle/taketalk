@@ -1,6 +1,5 @@
 var timerId = 0;
 
-
  //Add some handlebars helpers to our Template.
   //  This one handily enough returns our Items in rank order
   //  Since Meteor is reactive, whenever our Items change Meteor
@@ -173,8 +172,9 @@ Template.meeting.events({
             console.log('add user id ' + userId);
 
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
-                'You are invited to a session of TakeTalk. \n' +
+                'You are invited to a session of TakeTalk. \n\n' +
                 'Please follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
+                'Here is the link of the report : ' + meeting.reportLink + '\n\n' +
                 'If you quit the meeting and want to return here is the password : ' + meeting.password
             );
             console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId + ' -> ' + meeting.password);
@@ -257,6 +257,11 @@ Template.meeting.helpers ({
             ordreAndTimes[i] = {"ordre" : ordres[i], "time" :times[i]};
         }
         return ordreAndTimes;
+    },
+
+    reportLink: function () {
+        var meeting = Meetings.findOne({_id: Session.get("meetingId")});
+        return meeting.reportLink;
     },
 
     isTimeNull: function (time) {

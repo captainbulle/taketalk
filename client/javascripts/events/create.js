@@ -73,7 +73,8 @@ Template.create.events({
             status: "ongoing",
             ordres: ordres,
             ordreTimes: ordreTimes,
-            password: pass
+            password: pass,
+            reportLink: e.target.reportLink
         });
 
         var userId = Users.insert({
@@ -93,16 +94,18 @@ Template.create.events({
             e.target.animatorEmail.value,
             'noreply@taketalk.com',
             'TakeTalk session created',
-            'You have just created a session of TakeTalk. \n' +
-            'Here is the link : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
+            'You have just created a session of TakeTalk. \n\n' +
+            'Here is the link for the meeting : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
+            'Here is the link of the report : ' + e.target.reportLink + '\n\n' +
             'If you quit the meeting and want to return here is the password : ' + pass
         );
 
         for(var i = 0; i < participantsEmails.length; i++) {
             userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
-                'You are invited to a session of TakeTalk. \n' +
+                'You are invited to a session of TakeTalk. \n\n' +
                 'Please follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
+                'Here is the link of the report : ' + e.target.reportLink + '\n\n' +
                 'If you quit the meeting and want to return here is the password : ' + pass
             );
         }
