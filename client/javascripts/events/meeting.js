@@ -239,9 +239,10 @@ Template.meeting.events({
         Users.remove({_id: guestToRemove})
     },
 
-    'click .removeSpeech': function(e) {
+    'click .remove-speech': function(e) {
         e.preventDefault();
         var speechId = $(e.target).parents( ".speech-span" ).attr("speech-id");
+        console.log(speechId);
         Speeches.remove({_id: speechId});
     }
 });
