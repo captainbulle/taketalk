@@ -13,18 +13,22 @@ var timerId = 0;
         stop: function(e, ui) {
           // get the dragged html element and the one before
           //   and after it
-          el = ui.speech.get(0)
-          before = ui.speech.prev().get(0)
-          after = ui.speech.next().get(0)
- 
+          el = ui.item.get(0)
+          before = ui.item.prev().get(0)
+          after = ui.item.next().get(0)
+		  newRank = null;
+		  if(Speeches.findOne({id: Blaze.getData(el)._id,}).status == "ongoing")
+			  return false;
+		  
           // Here is the part that blew my mind!
           //  Blaze.getData takes as a parameter an html element
           //    and will return the data context that was bound when
           //    that html element was rendered!
-          if(!before) {
+		  if(!before) {
             //if it was dragged into the first position grab the
             // next element's data context and subtract one from the rank
-            newRank = Blaze.getData(after).rank - 1
+			if(Speeches.findOne({id: Blaze.getData(after)._id,}).status != "ongoing")
+				newRank = Blaze.getData(after).rank - 1
           } else if(!after) {
             //if it was dragged into the last position grab the
             //  previous element's data context and add one to the rank
@@ -35,9 +39,13 @@ var timerId = 0;
             // and next elements
             newRank = (Blaze.getData(after).rank +
                        Blaze.getData(before).rank)/2
- 
           //update the dragged Item's rank
-          Speeches.update({id: Blaze.getData(el).id}, {$set: {rank: newRank}})
+		  //alert(Speeches.findOne({meeting: Session.get("meetingId"), _id: Blaze.getData(el)._id})._id);
+		  if(newRank != null)
+			Speeches.update(Speeches.findOne({id: Blaze.getData(el)._id,})._id, {$set: {rank: newRank}});
+		  else
+			return false;
+		  //alert(Speeches.findOne({id: Blaze.getData(el)._id,}).rank);
         }
     })
   }
