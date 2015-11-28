@@ -1,6 +1,5 @@
 var timerId = 0;
 
-
  //Add some handlebars helpers to our Template.
   //  This one handily enough returns our Items in rank order
   //  Since Meteor is reactive, whenever our Items change Meteor
@@ -139,7 +138,8 @@ Template.meeting.events({
 
     'submit #inviteForm': function(e) {
         e.preventDefault();
-        meetingId = Session.get("meetingId");
+        var meetingId = Session.get("meetingId");
+        var meeting = Meetings.findOne({_id:meetingId});
         var dialog = $("#invitationModal")
         dialog.modal("hide");
 
@@ -168,11 +168,24 @@ Template.meeting.events({
             Session.set('invitedParticipants', participantsEmails)
         }
 
+        var userId = "";
         for(var i = 0; i < participantsEmails.length; i++) {
-            userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
+            userId = Users.insert({
+                name: 'participant pending',
+                email: participantsEmails[i],
+                type: "participant",
+                status: "pending",
+                meeting: meetingId
+            });
             console.log('add user id ' + userId);
-            Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation', 'You are invited to a session of TakeTalk. \nPlease follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId);
-            console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId);
+
+            Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
+                'You are invited to a session of TakeTalk. \n\n' +
+                'Please follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
+                'Here is the link of the report : ' + meeting.reportLink + '\n\n' +
+                'If you quit the meeting and want to return here is the password : ' + meeting.password
+            );
+            console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId + ' -> ' + meeting.password);
         }
 
         $(".participantEmailInput[rank!='1']").remove();
@@ -234,9 +247,10 @@ Template.meeting.events({
         Users.remove({_id: guestToRemove})
     },
 
-    'click .removeSpeech': function(e) {
+    'click .remove-speech': function(e) {
         e.preventDefault();
         var speechId = $(e.target).parents( ".speech-span" ).attr("speech-id");
+        console.log(speechId);
         Speeches.remove({_id: speechId});
     }
 });
@@ -246,11 +260,17 @@ Template.meeting.helpers ({
         var meeting = Meetings.findOne({_id: Session.get("meetingId")});
         var ordres = meeting.ordres;
         var times = meeting.ordreTimes;
-        var ordreAndTimes = new Array(ordres.length);
-        for (var i = 0; i < ordres.length; i++) {
+        var lengthOrdres = ordres.length;
+        var ordreAndTimes = new Array(lengthOrdres);
+        for (var i = 0; i < lengthOrdres; i++) {
             ordreAndTimes[i] = {"ordre" : ordres[i], "time" :times[i]};
         }
         return ordreAndTimes;
+    },
+
+    reportLink: function () {
+        var meeting = Meetings.findOne({_id: Session.get("meetingId")});
+        return (meeting.reportLink != "") ? '<p><a href="' + meeting.reportLink + '" title="Collaborative document" target="_blank">Link of the report</a></p>' : '';
     },
 
     isTimeNull: function (time) {
@@ -301,4 +321,4 @@ $(document).ready(function(){
         correctLevel: QRCode.CorrectLevel.H
     });
     //qrcode.makeCode("http://taketalk.meteor.com/join/" + meetingId + "/" + userId);
-});*/
+}); //*/

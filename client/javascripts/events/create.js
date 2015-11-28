@@ -73,7 +73,8 @@ Template.create.events({
             status: "ongoing",
             ordres: ordres,
             ordreTimes: ordreTimes,
-            password: pass
+            password: pass,
+            reportLink: (e.target.reportLink.value !== undefined) ? e.target.reportLink.value : ""
         });
 
         var userId = Users.insert({
@@ -85,6 +86,9 @@ Template.create.events({
         });
 
         localStorage.setItem(meetingId, meetingId);
+        var emailBody = 'Here is the link for the meeting : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n';
+        emailBody += (e.target.reportLink.value !== undefined) ? 'Here is the link of the report : ' + e.target.reportLink.value + '\n\n' : "";
+        emailBody += 'If you quit the meeting and want to return, here is the password : ' + pass;
         Session.set("meetingId", meetingId);
         Session.set("userId", userId);
         Session.set("ordres", ordres);
@@ -93,14 +97,14 @@ Template.create.events({
             e.target.animatorEmail.value,
             'noreply@taketalk.com',
             'TakeTalk session created',
-            'You have just created a session of TakeTalk. \n' +
-            'Here is the link : taketalk.meteor.com/join/' + meetingId + '/' + userId +
-            'If you quit the meeting and want to return here is the password : ' + meetingId.password
+            'You have just created a session of TakeTalk. \n\n' + emailBody
         );
 
         for(var i = 0; i < participantsEmails.length; i++) {
             userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
-            Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation', 'You are invited to a session of TakeTalk. \nPlease follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId);
+            Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
+                'You are invited to a session of TakeTalk. \n\n' + emailBody
+            );
         }
         Router.go('/meeting/' + meetingId);
     }

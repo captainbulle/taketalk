@@ -13,6 +13,7 @@
                             {{> ordre}}
                         {{/each}}
                     </ul>
+
                 </div>
             </div>
         </div>
@@ -33,7 +34,7 @@
                     </div>
                     <div id="list-group">
                         {{#each speeches}}
-                        <div class="list-group-item{{#if status}} active{{/if}} speech-span">
+                        <div class="list-group-item{{#if status}} active{{/if}} speech-span" speech-id="{{_id}}">
                             <h4 class="list-group-item-heading">
                               {{user}}
                               {{#if isTimeNull time}}
@@ -44,7 +45,7 @@
                             </h4>
                             <p class="list-group-item-text">Subject: {{orderChoose}}  /  Keywords: {{subject}}</p>
                             {{#if isAnimator}}
-                              <button type="button" class="btn btn-danger removeSpeech">
+                              <button type="button" class="btn btn-danger remove-speech">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                               </button>
                             {{/if}}
@@ -158,7 +159,7 @@
             <h4 class="modal-title" id="speech-delete-label">Invite Participants</h4>
           </div>
           <div class="modal-body">
-            Votre speech a été supprimé
+              Your spech have been deleted
           </div>
         </div>
       </div>
