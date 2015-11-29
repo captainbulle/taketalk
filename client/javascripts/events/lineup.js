@@ -54,7 +54,7 @@ Template.lineup.events({
 
 Template.lineup.helpers ({
     guests: function () {
-        guests = Session.get("guests");
+        var guests = Session.get("guests");
         var names = new Array(guests.length);
 
         for (i = 0; i < guests.length; i++) {

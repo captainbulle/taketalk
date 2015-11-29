@@ -89,6 +89,7 @@ Template.create.events({
         var emailBody = 'Here is the link for the meeting : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n';
         emailBody += (e.target.reportLink.value !== undefined) ? 'Here is the link of the report : ' + e.target.reportLink.value + '\n\n' : "";
         emailBody += 'If you quit the meeting and want to return, here is the password : ' + pass;
+
         Session.set("meetingId", meetingId);
         Session.set("userId", userId);
         Session.set("ordres", ordres);

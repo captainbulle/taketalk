@@ -12,9 +12,9 @@ var timerId = 0;
         stop: function(e, ui) {
           // get the dragged html element and the one before
           //   and after it
-          el = ui.speech.get(0)
-          before = ui.speech.prev().get(0)
-          after = ui.speech.next().get(0)
+          el = ui.speech.get(0);
+          before = ui.speech.prev().get(0);
+          after = ui.speech.next().get(0);
  
           // Here is the part that blew my mind!
           //  Blaze.getData takes as a parameter an html element
@@ -23,17 +23,16 @@ var timerId = 0;
           if(!before) {
             //if it was dragged into the first position grab the
             // next element's data context and subtract one from the rank
-            newRank = Blaze.getData(after).rank - 1
+            newRank = Blaze.getData(after).rank - 1;
           } else if(!after) {
             //if it was dragged into the last position grab the
             //  previous element's data context and add one to the rank
-            newRank = Blaze.getData(before).rank + 1
+            newRank = Blaze.getData(before).rank + 1;
           }
           else
             //else take the average of the two ranks of the previous
             // and next elements
-            newRank = (Blaze.getData(after).rank +
-                       Blaze.getData(before).rank)/2
+            newRank = (Blaze.getData(after).rank + Blaze.getData(before).rank)/2;
  
           //update the dragged Item's rank
           Speeches.update({id: Blaze.getData(el).id}, {$set: {rank: newRank}})
@@ -89,9 +88,19 @@ Template.meeting.events({
     /** A click on closeMeeting closes the meeting */
     'click #closeMeeting': function() {
         Meetings.update(Session.get("meetingId"), {$set: {status: "done"}});
+        /*var fs = require('fs');
+        var date = new Date();
+        fs.writeFile("/log.txt", "[ " + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " - " +
+            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " ] " +
+            "The meeting \"" + Session.get("meetingId") + "\" is close.", function(err) {
+            if(err) {
+                return console.log("Erreur dans l'enregistrement des logs : " + err);
+            }
+            console.log("The file was saved!");
+        });*/
         Session.set("meetingId", "");
         Session.set("userId", "");
-        Router.go("home");
+        Router.go("end");
     },
 
     'keyup .participantsEmails': function(e) {
@@ -132,7 +141,7 @@ Template.meeting.events({
         e.preventDefault();
         var meetingId = Session.get("meetingId");
         var meeting = Meetings.findOne({_id:meetingId});
-        var dialog = $("#invitationModal")
+        var dialog = $("#invitationModal");
         dialog.modal("hide");
 
         var participantsInputs = $('.participantsEmails');
@@ -140,7 +149,7 @@ Template.meeting.events({
 
         for (i = 0; i < participantsInputs.length; i++) {
             if (participantsInputs[i].value != "") {
-                participantsEmails.push(participantsInputs[i].value)
+                participantsEmails.push(participantsInputs[i].value);
             }
         }
 
@@ -148,16 +157,16 @@ Template.meeting.events({
         var invitedParticipants = Session.get('invitedParticipants');
         if (typeof invitedParticipants != 'undefined') {
             for (i = 0; i < invitedParticipants.length; i++) {
-                for (j = 0; j < participantsEmails.length; j++) {
+                for (var j = 0; j < participantsEmails.length; j++) {
                     if (invitedParticipants[i] == participantsEmails[j]) {
                         participantsEmails.splice(j,1);
                     }
                 }
             }
-            invitedParticipants = invitedParticipants.concat(participantsEmails)
-            Session.set('invitedParticipants', invitedParticipants)
+            invitedParticipants = invitedParticipants.concat(participantsEmails);
+            Session.set('invitedParticipants', invitedParticipants);
         } else {
-            Session.set('invitedParticipants', participantsEmails)
+            Session.set('invitedParticipants', participantsEmails);
         }
 
         var userId = "";
@@ -182,21 +191,21 @@ Template.meeting.events({
 
         $(".participantEmailInput[rank!='1']").remove();
         participantsInputs.val("");
-        console.log(Meetings.find({}).fetch())
+        console.log(Meetings.find({}).fetch());
     },
 
     'submit #localForm': function(e) {
         e.preventDefault();
-        meetingId = Session.get("meetingId");
+        var meetingId = Session.get("meetingId");
         var dialog = $("#localModal");
         dialog.modal("hide");
 
         var nameInputs = $('.participantsName');
         var participantsName = [];
 
-        for (i = 0; i < nameInputs.length; i++) {
+        for (var i = 0; i < nameInputs.length; i++) {
             if (nameInputs[i].value != "") {
-                participantsName.push(nameInputs[i].value)
+                participantsName.push(nameInputs[i].value);
             }
         }
 
@@ -204,7 +213,7 @@ Template.meeting.events({
         var localParticipants = Session.get("guests");
         if (typeof localParticipants != 'undefined') {
             for (i = 0; i < localParticipants.length; i++) {
-                for (j = 0; j < participantsName.length; j++) {
+                for (var j = 0; j < participantsName.length; j++) {
                     if (localParticipants[i] == participantsName[j]) {
                         participantsName.splice(j,1);
                     }
@@ -232,18 +241,19 @@ Template.meeting.events({
 
     'click .removeGuest': function(e) {
         e.preventDefault();
-        guests = Session.get("guests");
-        guestToRemove = $(e.target).parents( ".guestRemove" ).attr("guest");
+        var guests = Session.get("guests");
+        var guestToRemove = $(e.target).parents( ".guestRemove" ).attr("guest");
         guests.splice(guests.indexOf(guestToRemove),1);
         Session.set("guests", guests);
-        Users.remove({_id: guestToRemove})
+        Users.remove({_id: guestToRemove});
+        console.log(guestToRemove);
     },
 
     'click .remove-speech': function(e) {
         e.preventDefault();
-        var speechId = $(e.target).parents( ".speech-span" ).attr("speech-id");
-        console.log(speechId);
+        var speechId = $(e.target).parents( ".speechRemove" ).attr("speech-id");
         Speeches.remove({_id: speechId});
+        console.log(speechId);
     }
 });
 
@@ -282,15 +292,17 @@ Template.meeting.helpers ({
     },
 
     isAnimator: function() {
+        //console.log(Session.get("userId"));
         return Users.findOne({_id: Session.get("userId")}).type == "animator";
     },
 	
 	 sortedSpeeches: function() {
-      return Speeches.find({}, {sort: {rank: 1}})
+      return Speeches.find({}, {sort: {rank: 1}});
     }
 });
 
 /*
+// Fonction de QRCode à partir de la library qrcodejs disponible sur le site http://davidshimjs.github.io/qrcodejs/
 $(document).ready(function(){
 
     var meetingId = Session.get("meetingId");
