@@ -319,7 +319,11 @@ Template.meeting.helpers ({
 
     reportLink: function () {
         var meeting = Meetings.findOne({_id: Session.get("meetingId")});
-        return (meeting.reportLink != "") ? '<p><a href="' + meeting.reportLink + '" title="Collaborative document" target="_blank">Link of the report</a></p>' : '';
+        return meeting.reportLink;
+    },
+
+    isReportLink: function() {
+        return  Meetings.findOne({_id: Session.get("meetingId")}).reportLink != "";
     },
 
     isTimeNull: function (time) {

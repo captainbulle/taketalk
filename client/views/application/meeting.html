@@ -21,6 +21,11 @@
                             <!-- Actions -->
                         </div>
                         {{/each}}
+                        {{#if isReportLink}}
+                            <div class="col-md-12">
+                                <p><a href="{{reportLink}}" title="Collaborative document" target="_blank">Link of the report</a></p>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -85,9 +90,11 @@
                             <div class="list-group">
                                 <div class="list-group-item">
                                     <h4 class="list-group-item-heading">{{name}}</h4>
-                                    {{#each paroles}}
-                                        {{>parole}}
-                                    {{/each}}
+                                    <p>
+                                        {{#each paroles}}
+                                            {{>parole}}
+                                        {{/each}}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +212,5 @@
 </template>
 
 <template name="parole">
-  <span>
-    {{order}} : {{displayTime time}}
-  </span>
+  <span>{{order}} : {{displayTime time}}</span><br/>
 </template>
