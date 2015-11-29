@@ -16,7 +16,8 @@ Template.lineup.events({
         speeches = Speeches.find({meeting: Session.get("meetingId")}, {sort: {rank: -1}}).fetch();
         if (speeches.length > 0) {
             rank = speeches[0].rank+1;
-        }console.log(rank)
+        }
+        console.log(rank)
 
 		/* // If no keyword -> The subject is "Unknow"
 		if(t.find("#keywords").value == ""){

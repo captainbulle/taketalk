@@ -10,7 +10,7 @@ var timerId = 0;
 var sortableList;
 function computeSortable(element) {
     element.sortable({
-        items: "div:not(.active)",
+        items: "div.speech-item:not(.active)",
         stop: function(e, ui) {
             // get the dragged html element and the one before
             //   and after it
@@ -26,20 +26,25 @@ function computeSortable(element) {
             if (!before) {
                 //if it was dragged into the first position grab the
                 // next element's data context and subtract one from the rank
-                newRank = Blaze.getData(after).rank - 1;
+                newRank = parseInt(Blaze.getData(after).rank) - 1;
+                console.log("after : " + newRank)
             } else if (!after) {
                 //if it was dragged into the last position grab the
                 //  previous element's data context and add one to the rank
-                newRank = Blaze.getData(before).rank + 1;
+                newRank = parseInt(Blaze.getData(before).rank) + 1;
+                console.log("before : " + newRank)
             }
             else {
                 //else take the average of the two ranks of the previous
                 // and next elements
-                newRank = (Blaze.getData(after).rank + Blaze.getData(before).rank) / 2;
+                newRank = (parseInt(Blaze.getData(after).rank) + parseInt(Blaze.getData(before).rank)) / 2;
+                console.log("milieu : " + newRank)
             }
 
             //update the dragged Item's rank
             if (newRank != null) {
+                console.log(newRank);
+                console.log('fin :'+newRank);
                 Speeches.update(Speeches.findOne({_id: Blaze.getData(el)._id})._id, {$set: {rank: newRank}});
             }
             else {
@@ -49,10 +54,10 @@ function computeSortable(element) {
     })
 }
 Template.meeting.rendered = function () {
-    sortableList = this.$('#list-group');
+    sortableList = this.$('#speech-list');
     sortableList.disableSelection();
     if (Users.findOne({_id: Session.get("userId")}).type == "animator") {
-        computeSortable(sortableList)
+        computeSortable(sortableList);
     }
 };
   
@@ -82,9 +87,8 @@ Template.meeting.events({
 
             timerId = Meteor.setInterval(function() {
 
-
-                currentSpeech = Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"});
-                user = Users.findOne({_id:currentSpeech.user});
+                var currentSpeech = Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"});
+                var user = Users.findOne({_id:currentSpeech.user});
                 var paroles = [];
                 var time = 1;
                 if (user.paroles === undefined) {
@@ -103,10 +107,8 @@ Template.meeting.events({
                     }
                 }
                 console.log(paroles);
+
                 Users.update(user._id,  {$set: {paroles: paroles}});
-
-
-
                 Speeches.update(
                     currentSpeech._id,
                     {$set: {timeLeft: Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft + 1}}
@@ -148,6 +150,9 @@ Template.meeting.events({
         });*/
         Session.set("meetingId", "");
         Session.set("userId", "");
+        Speeches.remove({});
+        Users.remove({});
+        Meetings.remove({});
         Router.go("end");
     },
 
@@ -323,7 +328,7 @@ Template.meeting.helpers ({
     },
 
     isReportLink: function() {
-        return  Meetings.findOne({_id: Session.get("meetingId")}).reportLink != "";
+        return Meetings.findOne({_id: Session.get("meetingId")}).reportLink != "";
     },
 
     isTimeNull: function (time) {
@@ -346,6 +351,10 @@ Template.meeting.helpers ({
         //console.log(Session.get("userId"));
         return Users.findOne({_id: Session.get("userId")}).type == "animator";
     },
+
+    isSubject: function(id) {
+        return Speeches.findOne({_id: id}).subject != "";
+    },
 	
 	 sortedSpeeches: function() {
       return Speeches.find({}, {sort: {rank: 1}});
@@ -361,14 +370,14 @@ Template.parole.helpers ({
             amount = Math.floor(parseInt(time)/60);
             response =  amount+' minute';
             if (amount > 1) {
-                response += 's'
+                response += 's';
             }
         }
         return response;
     }
 });
 /*
-// Fonction de QRCode à partir de la library qrcodejs disponible sur le site http://davidshimjs.github.io/qrcodejs/
+// Fonction de QRCode ï¿½ partir de la library qrcodejs disponible sur le site http://davidshimjs.github.io/qrcodejs/
 $(document).ready(function(){
 
     var meetingId = Session.get("meetingId");
