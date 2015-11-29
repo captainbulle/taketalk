@@ -333,6 +333,21 @@ Template.meeting.helpers ({
     }
 });
 
+Template.parole.helpers ({
+    displayTime: function(time) {
+        var response;
+        if (time < 60) {
+            response = time +' secondes';
+        } else {
+            amount = Math.floor(parseInt(time)/60);
+            response =  amount+' minute';
+            if (amount > 1) {
+                response += 's'
+            }
+        }
+        return response;
+    }
+});
 /*
 $(document).ready(function(){
 
