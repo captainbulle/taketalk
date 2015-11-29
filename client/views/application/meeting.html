@@ -85,6 +85,9 @@
                             <div class="list-group">
                                 <div class="list-group-item">
                                     <h4 class="list-group-item-heading">{{name}}</h4>
+                                    {{#each paroles}}
+                                        {{>parole}}
+                                    {{/each}}
                                 </div>
                             </div>
                         </div>
@@ -199,4 +202,10 @@
 
 <template name="ordre">
     <h4 class="list-group-item-heading"><b>{{ordre}}</b> - {{#if time}}{{time}} min estimated{{else}} no duration scheduled{{/if}}</h4>
+</template>
+
+<template name="parole">
+  <span>
+    {{order}} : {{displayTime time}}
+  </span>
 </template>

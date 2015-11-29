@@ -12,6 +12,11 @@ Template.lineup.events({
 		var order = t.find("#order").value;
         var submitTime = t.find(".timeButton:checked").value;
         var userId = $(e.target).attr("user-id");
+        var rank = 1;
+        speeches = Speeches.find({meeting: Session.get("meetingId")}, {sort: {rank: -1}}).fetch();
+        if (speeches.length > 0) {
+            rank = speeches[0].rank+1;
+        }console.log(rank)
 
 		/* // If no keyword -> The subject is "Unknow"
 		if(t.find("#keywords").value == ""){
@@ -34,7 +39,8 @@ Template.lineup.events({
                 timeString: submitTime,
                 status: "pending",
                 user: userId,
-                meeting: Session.get("meetingId")
+                meeting: Session.get("meetingId"),
+                rank: rank
             });
         } else {
             Speeches.insert({
@@ -45,7 +51,8 @@ Template.lineup.events({
                 timeString: "",
                 status: "pending",
                 user: userId,
-                meeting: Session.get("meetingId")
+                meeting: Session.get("meetingId"),
+                rank: rank
             });
         }
         Router.go('/meeting/' + Session.get("meetingId"));
