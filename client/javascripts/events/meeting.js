@@ -7,46 +7,52 @@ var timerId = 0;
  
   //Once the Template is rendered, run this function which
   //  sets up JQuery UI's sortable functionality
-  Template.meeting.rendered = function() {
-    this.$('#list-group').sortable({
+var sortableList;
+function computeSortable(element) {
+    element.sortable({
+        items: "div:not(.active)",
         stop: function(e, ui) {
-          // get the dragged html element and the one before
-          //   and after it
-          el = ui.item.get(0)
-          before = ui.item.prev().get(0)
-          after = ui.item.next().get(0)
-		  newRank = null;
-		  if(Speeches.findOne({id: Blaze.getData(el)._id,}).status == "ongoing")
-			  return false;
-		  
-          // Here is the part that blew my mind!
-          //  Blaze.getData takes as a parameter an html element
-          //    and will return the data context that was bound when
-          //    that html element was rendered!
-		  if(!before) {
-            //if it was dragged into the first position grab the
-            // next element's data context and subtract one from the rank
-			if(Speeches.findOne({id: Blaze.getData(after)._id,}).status != "ongoing")
-				newRank = Blaze.getData(after).rank - 1
-          } else if(!after) {
-            //if it was dragged into the last position grab the
-            //  previous element's data context and add one to the rank
-            newRank = Blaze.getData(before).rank + 1
-          }
-          else
+            // get the dragged html element and the one before
+            //   and after it
+            el = ui.item.get(0)
+            before = ui.item.prev().get(0)
+            after = ui.item.next().get(0)
+            newRank = null;
+
+            // Here is the part that blew my mind!
+            //  Blaze.getData takes as a parameter an html element
+            //    and will return the data context that was bound when
+            //    that html element was rendered!
+            if(!before) {
+                //if it was dragged into the first position grab the
+                // next element's data context and subtract one from the rank
+                newRank = Blaze.getData(after).rank - 1
+            } else if(!after) {
+                //if it was dragged into the last position grab the
+                //  previous element's data context and add one to the rank
+                newRank = Blaze.getData(before).rank + 1
+            }
+            else
             //else take the average of the two ranks of the previous
             // and next elements
-            newRank = (Blaze.getData(after).rank +
-                       Blaze.getData(before).rank)/2
-          //update the dragged Item's rank
-		  //alert(Speeches.findOne({meeting: Session.get("meetingId"), _id: Blaze.getData(el)._id})._id);
-		  if(newRank != null)
-			Speeches.update(Speeches.findOne({id: Blaze.getData(el)._id,})._id, {$set: {rank: newRank}});
-		  else
-			return false;
-		  //alert(Speeches.findOne({id: Blaze.getData(el)._id,}).rank);
+                newRank = (Blaze.getData(after).rank +
+                Blaze.getData(before).rank)/2;
+            //update the dragged Item's rank
+            //alert(Speeches.findOne({meeting: Session.get("meetingId"), _id: Blaze.getData(el)._id})._id);
+            if(newRank != null) {
+                Speeches.update(Speeches.findOne({_id: Blaze.getData(el)._id})._id, {$set: {rank: newRank}});}
+            else
+                return false;
+            //alert(Speeches.findOne({id: Blaze.getData(el)._id,}).rank);
         }
     })
+}
+  Template.meeting.rendered = function () {
+      sortableList = this.$('#list-group');
+      sortableList.disableSelection();
+      if (Users.findOne({_id: Session.get("userId")}).type == "animator") {
+          computeSortable(sortableList)
+      }
   }
   
 /** The events that meeting template contains */
@@ -69,7 +75,7 @@ Template.meeting.events({
             );
         } else {
             Speeches.update(
-                Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"})._id,
+                Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"}, {sort: {rank: 1}})._id,
                 {$set: {status: "ongoing"}}
             );
             timerId = Meteor.setInterval(function() {
@@ -86,6 +92,11 @@ Template.meeting.events({
                 }
             } , 1000);
         }
+        setTimeout(function () {
+            sortableList.sortable( "destroy" );
+            computeSortable(sortableList);
+        }, 100)
+        ;
     },
 
     /** A click on next goes to the next speech */
@@ -177,7 +188,6 @@ Template.meeting.events({
                 status: "pending",
                 meeting: meetingId
             });
-            console.log('add user id ' + userId);
 
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
                 'You are invited to a session of TakeTalk. \n\n' +
@@ -190,7 +200,6 @@ Template.meeting.events({
 
         $(".participantEmailInput[rank!='1']").remove();
         participantsInputs.val("");
-        console.log(Meetings.find({}).fetch())
     },
 
     'submit #localForm': function(e) {
@@ -250,7 +259,6 @@ Template.meeting.events({
     'click .remove-speech': function(e) {
         e.preventDefault();
         var speechId = $(e.target).parents( ".speech-span" ).attr("speech-id");
-        console.log(speechId);
         Speeches.remove({_id: speechId});
     }
 });
