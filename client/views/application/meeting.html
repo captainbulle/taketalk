@@ -67,6 +67,11 @@
                                 {{>guest}}
                               {{/if}}
                             </span>
+                            <div>
+                              {{#each paroles}}
+                                {{>parole}}
+                              {{/each}}
+                            </div>
                         {{/each}}
                     </div>
                 </div>
@@ -177,4 +182,12 @@
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </button>
   </div>
+</template>
+
+
+
+<template name="parole">
+  <span>
+    {{order}} : {{time}}
+  </span>
 </template>

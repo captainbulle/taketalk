@@ -78,9 +78,36 @@ Template.meeting.events({
                 Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"}, {sort: {rank: 1}})._id,
                 {$set: {status: "ongoing"}}
             );
+
             timerId = Meteor.setInterval(function() {
+
+
+                currentSpeech = Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"});
+                user = Users.findOne({_id:currentSpeech.user});
+                var paroles = [];
+                var time = 1;
+                if (user.paroles === undefined) {
+                    paroles.push({"order": currentSpeech.orderChoose, "time": 1});
+                } else {
+                    var paroleFound = false;
+                    paroles = user.paroles;
+                    paroles.forEach(function (el) {
+                        if (el['order'] == currentSpeech.orderChoose) {
+                            paroleFound = true;
+                            el['time'] = parseInt(el['time'])+1;
+                        }
+                    });
+                    if (!paroleFound) {
+                        paroles.push({"order": currentSpeech.orderChoose, "time": 1});
+                    }
+                }
+                console.log(paroles);
+                Users.update(user._id,  {$set: {paroles: paroles}});
+
+
+
                 Speeches.update(
-                    Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id,
+                    currentSpeech._id,
                     {$set: {timeLeft: Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft + 1}}
                 );
                 if(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft == Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).time){
