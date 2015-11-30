@@ -145,9 +145,6 @@ Template.meeting.events({
         });*/
         Session.set("meetingId", "");
         Session.set("userId", "");
-        Speeches.remove({});
-        Users.remove({});
-        Meetings.remove({});
         Router.go("end");
     },
 

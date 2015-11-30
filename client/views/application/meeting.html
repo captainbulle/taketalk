@@ -9,6 +9,11 @@
                 <div class="panel-heading"><span class="title">Agenda</span></div>
                 <div class="panel-body">
                     <div class="row">
+                        {{#if isReportLink}}
+                            <div class="col-md-12">
+                                <p><a href="{{reportLink}}" title="Collaborative document" target="_blank">Link of the report</a></p>
+                            </div>
+                        {{/if}}
                         {{#each ordres}}
                         <div class="col-md-10" style="padding-right:0; margin-bottom:-10px">
                             <div class="list-group">
@@ -21,11 +26,6 @@
                             <!-- Actions -->
                         </div>
                         {{/each}}
-                        {{#if isReportLink}}
-                            <div class="col-md-12">
-                                <p><a href="{{reportLink}}" title="Collaborative document" target="_blank">Link of the report</a></p>
-                            </div>
-                        {{/if}}
                     </div>
                 </div>
             </div>

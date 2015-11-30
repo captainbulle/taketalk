@@ -13,6 +13,8 @@ Meteor.methods({
   },
 
   resetAll: function() {
+      Session.set("meetingId", "");
+      Session.set("userId", "");
       Speeches.remove({});
       Users.remove({});
       Meetings.remove({});
