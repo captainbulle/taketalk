@@ -133,16 +133,6 @@ Template.meeting.events({
     /** A click on closeMeeting closes the meeting */
     'click #closeMeeting': function() {
         Meetings.update(Session.get("meetingId"), {$set: {status: "done"}});
-        /*var fs = require('fs');
-        var date = new Date();
-        fs.writeFile("/log.txt", "[ " + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " - " +
-            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " ] " +
-            "The meeting \"" + Session.get("meetingId") + "\" is close.", function(err) {
-            if(err) {
-                return console.log("Erreur dans l'enregistrement des logs : " + err);
-            }
-            console.log("The file was saved!");
-        });*/
         Session.set("meetingId", "");
         Session.set("userId", "");
         Router.go("end");
