@@ -45,12 +45,11 @@
                             </div>
                         {{/if}}
                     </div>
-                    <div class="row">
+                    <div class="row" id="speech-list">
                         <div class="col-md-12" style="margin-top:10px"></div>
-                        <div id="speech-list">
                         {{#each speeches}}
                             <div class="speech-item {{#if status}}active{{/if}}">
-                              <div class="col-md-10" style="padding-right:0; margin-bottom:-10px">
+                              <div style="padding-right:0; margin-bottom:-10px">
                                   <div class="list-group">
                                       <div class="list-group-item{{#if status}} active{{/if}}">
                                           <h4 class="list-group-item-heading">
@@ -69,7 +68,7 @@
                                           </p>
                                       </div>
                                   </div>
-                              </div>
+                                </div>
                               {{#if isAnimator}}
                                   <div class="col-md-2" style="padding-left:0">
                                       <div class="input-group speechRemove" speech-id="{{_id}}">
@@ -81,7 +80,6 @@
                               {{/if}}
                             </div>
                         {{/each}}
-                        </div>
                     </div>
                 </div> <!-- panel-body -->
             </div>

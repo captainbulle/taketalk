@@ -27,24 +27,19 @@ function computeSortable(element) {
                 //if it was dragged into the first position grab the
                 // next element's data context and subtract one from the rank
                 newRank = parseInt(Blaze.getData(after).rank) - 1;
-                console.log("after : " + newRank)
             } else if (!after) {
                 //if it was dragged into the last position grab the
                 //  previous element's data context and add one to the rank
                 newRank = parseInt(Blaze.getData(before).rank) + 1;
-                console.log("before : " + newRank)
             }
             else {
                 //else take the average of the two ranks of the previous
                 // and next elements
                 newRank = (parseInt(Blaze.getData(after).rank) + parseInt(Blaze.getData(before).rank)) / 2;
-                console.log("milieu : " + newRank)
             }
 
             //update the dragged Item's rank
             if (newRank != null) {
-                console.log(newRank);
-                console.log('fin :'+newRank);
                 Speeches.update(Speeches.findOne({_id: Blaze.getData(el)._id})._id, {$set: {rank: newRank}});
             }
             else {
