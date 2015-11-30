@@ -49,7 +49,7 @@
                         <div style="margin-top:10px"></div>
                         {{#each speeches}}
                             <div class="speech-item {{#if status}}active{{/if}}">
-                              <div style="padding-right:0; margin-bottom:-10px">
+                              <div style="margin-bottom:-10px">
                                   <div class="list-group">
                                       <div class="list-group-item{{#if status}} active{{/if}}">
                                           <h4 class="list-group-item-heading">
@@ -66,18 +66,18 @@
                                                   <br/>Keywords: {{subject}}
                                               {{/if}}
                                           </p>
+                                          {{#if isAnimator}}
+                                              <div style="position:relative; left:350px; bottom:45px;">
+                                                  <div class="input-group speechRemove" speech-id="{{_id}}">
+                                                      <button type="button" class="btn btn-danger btn-xs remove-speech">
+                                                          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                      </button>
+                                                  </div>
+                                              </div>
+                                          {{/if}}
                                       </div>
                                   </div>
                                 </div>
-                              {{#if isAnimator}}
-                                  <div style="padding-left:0">
-                                      <div class="input-group speechRemove" speech-id="{{_id}}">
-                                          <button type="button" class="btn btn-danger btn-xs remove-speech">
-                                              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                          </button>
-                                      </div>
-                                  </div>
-                              {{/if}}
                             </div>
                         {{/each}}
                     </div>
