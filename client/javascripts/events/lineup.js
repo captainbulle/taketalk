@@ -13,16 +13,12 @@ Template.lineup.events({
         var submitTime = t.find(".timeButton:checked").value;
         var userId = $(e.target).attr("user-id");
         var rank = 1;
+
+        //Recherche du speech ayant le plus haut rang
         speeches = Speeches.find({meeting: Session.get("meetingId")}, {sort: {rank: -1}}).fetch();
         if (speeches.length > 0) {
             rank = speeches[0].rank+1;
         }
-        console.log(rank)
-
-		/* // If no keyword -> The subject is "Unknow"
-		if(t.find("#keywords").value == ""){
-			t.find("#keywords").value = "Unknow";
-		}*/
 		
         if (submitTime == 'rapide') {
             submitTime = "intervention rapide"
@@ -31,6 +27,7 @@ Template.lineup.events({
             submitTime = "plus de 10 minutes"
         }
 
+        //Création de la demande de parole
         if (isNaN(submitTime)) {
             Speeches.insert({
                 subject: t.find("#keywords").value,
@@ -56,11 +53,15 @@ Template.lineup.events({
                 rank: rank
             });
         }
+
+        //redirection vers la page du meeting
         Router.go('/meeting/' + Session.get("meetingId"));
     }
 });
 
 Template.lineup.helpers ({
+
+    //Retourne la liste des utilisateurs ajoutés en local
     guests: function () {
         var guests = Session.get("guests");
         var names = new Array(guests.length);
@@ -72,10 +73,12 @@ Template.lineup.helpers ({
         return names;
     },
 
+    //Retourne l'ordre du jour
     ordres: function () {
         return Session.get("ordres");
     },
 
+    //Retourne vrai si dse utilisateurs ont été ajoutés en local
     hasGuest: function () {
         if (Session.get("guests") === undefined) {
             return false;
@@ -83,6 +86,7 @@ Template.lineup.helpers ({
         return Session.get("guests").length > 0;
     },
 
+    //Retourne l'utilisateur local
     currentUser: function(){
         return Users.findOne({_id: Session.get("userId")});
     }

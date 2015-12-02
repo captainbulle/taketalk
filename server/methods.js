@@ -6,12 +6,14 @@
  * @param {string} text - The e-mail's body
 */
 Meteor.methods({
+  //Envoi d'email aux utilisateurs invités
   sendEmail: function(to, from, subject, text) {
     check([to, from, subject, text], [String]);
     this.unblock();
     Email.send({to: to, from: from, subject: subject, text: text});
   },
 
+  //Permet de réinitiliser la base de données
   resetAll: function() {
       Session.set("meetingId", "");
       Session.set("userId", "");

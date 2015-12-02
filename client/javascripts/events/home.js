@@ -1,6 +1,6 @@
 /** The events that home template contains */
 Template.home.events({
-    /** A click on #open opens the create page */
+    //Redirection vers la page de création de meeting
     'click #open': function(e){
         Router.go('create');
     }

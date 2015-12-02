@@ -1,12 +1,6 @@
 var timerId = 0;
 
- //Add some handlebars helpers to our Template.
-  //  This one handily enough returns our Items in rank order
-  //  Since Meteor is reactive, whenever our Items change Meteor
-  //    will re-render our Template (putting them in the correct order)
- 
-  //Once the Template is rendered, run this function which
-  //  sets up JQuery UI's sortable functionality
+//Initialisation de la fonction de tri par drag'n'drop des speech
 var sortableList;
 function computeSortable(element) {
     element.sortable({
@@ -19,7 +13,6 @@ function computeSortable(element) {
             after = ui.item.next().get(0);
             newRank = null;
 
-            // Here is the part that blew my mind!
             //  Blaze.getData takes as a parameter an html element
             //    and will return the data context that was bound when
             //    that html element was rendered!
@@ -48,6 +41,8 @@ function computeSortable(element) {
         }
     })
 }
+
+//Appel de la fonction d'initialisation de tri par drag'n'drop à la fin du rendu de la page
 Template.meeting.rendered = function () {
     sortableList = this.$('#speech-list');
     sortableList.disableSelection();
@@ -58,7 +53,7 @@ Template.meeting.rendered = function () {
   
 /** The events that meeting template contains */
 Template.meeting.events({
-    /** A click on talkCancel opens the lineup page or cancels the user's speech */
+    /** A click on talk opens the lineup page */
     'click #talkCancel': function(e) {
         if(e.target.value == "Talk") {
             Router.go('/meeting/' + Session.get("meetingId") + '/lineup');
@@ -68,6 +63,7 @@ Template.meeting.events({
     },
     /** A click on waitProceed starts or stops the timer */
     'click #waitProceed': function(e) {
+        //Arret du timer
         if(e.target.value == "Wait") {
             Meteor.clearInterval(timerId);
             Speeches.update(
@@ -80,12 +76,14 @@ Template.meeting.events({
                 {$set: {status: "ongoing"}}
             );
 
+            //Lancement du timer
             timerId = Meteor.setInterval(function() {
-
                 var currentSpeech = Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"});
                 var user = Users.findOne({_id:currentSpeech.user});
                 var paroles = [];
                 var time = 1;
+
+                //Incrémentation du compteur associé a l'ordre du speech
                 if (user.paroles === undefined) {
                     paroles.push({"order": currentSpeech.orderChoose, "time": 1});
                 } else {
@@ -101,13 +99,15 @@ Template.meeting.events({
                         paroles.push({"order": currentSpeech.orderChoose, "time": 1});
                     }
                 }
-                console.log(paroles);
 
                 Users.update(user._id,  {$set: {paroles: paroles}});
+
+                //Update du temps restant du speech
                 Speeches.update(
                     currentSpeech._id,
                     {$set: {timeLeft: Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft + 1}}
                 );
+                //Update du statut du speech si celui ci est terminé
                 if(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft == Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).time){
                     Speeches.update(
                         Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id,
@@ -117,8 +117,11 @@ Template.meeting.events({
                 }
             } , 1000);
         }
+        //Rafraichi la fonction de drag'n'drop
+        //Utile pour empêcher le déplacement du premier meeting quand on clique sur 'proceed'
+        //trouver une autre solution (la méthode "refresh" semble inefficace)
         setTimeout(function () {
-            sortableList.sortable( "destroy" );
+            sortableList.sortable("destroy");
             computeSortable(sortableList);
         }, 100)
         ;
@@ -138,6 +141,7 @@ Template.meeting.events({
         Router.go("end");
     },
 
+    //Ajout d'un nouveau champ de saisie lorsqu'un caractère est renseigné
     'keyup .participantsEmails': function(e) {
         var input = $(e.target);
 
@@ -155,6 +159,7 @@ Template.meeting.events({
         }
     },
 
+    //Ajout d'un nouveau champ de saisie lorsqu'un caractère est renseigné
     'keyup .participantsName': function(e) {
         var input = $(e.target);
 
@@ -188,7 +193,7 @@ Template.meeting.events({
             }
         }
 
-        //* remove already invited emails from emails to invite
+        // remove already invited emails from emails to invite
         var invitedParticipants = Session.get('invitedParticipants');
         if (typeof invitedParticipants != 'undefined') {
             for (i = 0; i < invitedParticipants.length; i++) {
@@ -206,6 +211,7 @@ Template.meeting.events({
 
         var userId = "";
         for(var i = 0; i < participantsEmails.length; i++) {
+            //Création des utilisateurs invités
             userId = Users.insert({
                 name: 'participant pending',
                 email: participantsEmails[i],
@@ -214,18 +220,19 @@ Template.meeting.events({
                 meeting: meetingId
             });
 
+            //Envoi d'un mail aux invités pour qu'ils puissent rejoindre le meeting
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
                 'You are invited to a session of TakeTalk. \n\n' +
                 'Please follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
                 'Here is the link of the report : ' + meeting.reportLink + '\n\n' +
                 'If you quit the meeting and want to return here is the password : ' + meeting.password
             );
-            console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId + ' -> ' + meeting.password);
+            //console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId + ' -> ' + meeting.password);
         }
 
+        //
         $(".participantEmailInput[rank!='1']").remove();
         participantsInputs.val("");
-        console.log(Meetings.find({}).fetch());
     },
 
     'submit #localForm': function(e) {
@@ -262,6 +269,7 @@ Template.meeting.events({
         $(".participantNameInput[rank!='1']").remove();
         nameInputs.val("");
 
+        //Création des utilisateurs ajoutés en local
         for (i = 0; i < participantsName.length; i++) {
             Users.insert({
                 name: participantsName[i],
@@ -280,18 +288,17 @@ Template.meeting.events({
         guests.splice(guests.indexOf(guestToRemove),1);
         Session.set("guests", guests);
         Users.remove({_id: guestToRemove});
-        console.log(guestToRemove);
     },
 
     'click .remove-speech': function(e) {
         e.preventDefault();
         var speechId = $(e.target).parents( ".speechRemove" ).attr("speech-id");
         Speeches.remove({_id: speechId});
-        console.log(speechId);
     }
 });
 
 Template.meeting.helpers ({
+    //Retourne l'ordre du jour et les temps estimés
     ordres: function () {
         var meeting = Meetings.findOne({_id: Session.get("meetingId")});
         var ordres = meeting.ordres;
@@ -304,11 +311,13 @@ Template.meeting.helpers ({
         return ordreAndTimes;
     },
 
+    //Retourne le ien du rapport du meeting
     reportLink: function () {
         var meeting = Meetings.findOne({_id: Session.get("meetingId")});
         return meeting.reportLink;
     },
 
+    //Retourne vrai si un lien de rapport a été renseigné a la création
     isReportLink: function() {
         return Meetings.findOne({_id: Session.get("meetingId")}).reportLink != "";
     },
@@ -317,10 +326,12 @@ Template.meeting.helpers ({
         return time == '0:00';
     },
 
+    //Retourne les utilisateurs ajoutés en local
     guests: function () {
         return Session.get("guests");
     },
 
+    //Retourne vrai si le paramètre est le nom d'un utilisateur ajouté localement
     isSessionGuest: function (name) {
         var guests = Session.get("guests");
         if (guests !== undefined) {
@@ -329,19 +340,22 @@ Template.meeting.helpers ({
         return false;
     },
 
+    //Retourne vrai si l'utilisateur local est animateur
     isAnimator: function() {
-        //console.log(Session.get("userId"));
         return Users.findOne({_id: Session.get("userId")}).type == "animator";
     },
 
+    //Retourne vrai si le speech a des mots clé
     isSubject: function(id) {
         return Speeches.findOne({_id: id}).subject != "";
     },
-	
+
+    //Retourne les speech triés par rang
 	 sortedSpeeches: function() {
       return Speeches.find({}, {sort: {rank: 1}});
     }
 });
+
 
 Template.parole.helpers ({
     displayTime: function(time) {

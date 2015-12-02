@@ -1,7 +1,7 @@
 /** The events that create template contains */
 Template.create.events({
 
-    /** create new input when the last is filled */
+    //Création d'un nouveau champ de saisie lorsqu'un caractère est renseigné
     'keyup .participant-email-input': function(e) {
         var input = $(e.target);
 
@@ -19,6 +19,7 @@ Template.create.events({
         }
     },
 
+    //Création d'un nouveau champ de saisie lorsqu'un caractère est renseigné
     'keyup .agenda-name-input': function(e) {
         var input = $(e.target);
 
@@ -37,14 +38,16 @@ Template.create.events({
         }
     },
 
-    /** A form submission creates a meeting, invites participants and opens the meeting page */
     'submit form': function(e) {
         e.preventDefault();
+        //Récupération des éléments DOM des champs de saisie
         var ordreInputs = e.target.ordreDuJour;
-        var ordres = [];
         var ordreTimeInputs = e.target.ordreDuJourTemps;
-        var ordreTimes = [];
         var participantsInputs = e.target.participantsEmails;
+
+        //Récupération des valeurs de l'ordre du jour, temps estimés et des emails d'invitation
+        var ordres = [];
+        var ordreTimes = [];
         var participantsEmails = [];
 
         for (i = 0; i < participantsInputs.length; i++) {
@@ -59,6 +62,7 @@ Template.create.events({
             }
         }
 
+        //Création du mot de passe du meeting
         var pass = Math.floor((Math.random() * 10000) + 1);
         if(pass < 10){
             pass = '000' + pass;
@@ -68,6 +72,7 @@ Template.create.events({
             pass = '0' + pass;
         }
 
+        //Création du meeting
         var meetingId = Meetings.insert({
             name: e.target.meetingName.value,
             status: "ongoing",
@@ -77,6 +82,7 @@ Template.create.events({
             reportLink: (e.target.reportLink.value !== undefined) ? e.target.reportLink.value : ""
         });
 
+        //Création de l'utilisateur animateur
         var userId = Users.insert({
             name: e.target.animatorName.value,
             email: e.target.animatorEmail.value,
@@ -86,14 +92,19 @@ Template.create.events({
         });
 
         localStorage.setItem(meetingId, meetingId);
+
+        //Définition du corp du mail envoyé à l'animateur et aux invités
         var emailBody = 'Here is the link for the meeting : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n';
         emailBody += (e.target.reportLink.value !== undefined) ? 'Here is the link of the report : ' + e.target.reportLink.value + '\n\n' : "";
         emailBody += 'If you quit the meeting and want to return, here is the password : ' + pass;
 
+        //Alimentation des variable de la session
         Session.set("meetingId", meetingId);
         Session.set("userId", userId);
         Session.set("ordres", ordres);
         Session.set("ordreTimes", ordreTimes);
+
+        //Envoi du mail à l'animateur
         Meteor.call('sendEmail',
             e.target.animatorEmail.value,
             'noreply@taketalk.com',
@@ -101,12 +112,15 @@ Template.create.events({
             'You have just created a session of TakeTalk. \n\n' + emailBody
         );
 
+        //Envoi des mails aux invités
         for(var i = 0; i < participantsEmails.length; i++) {
             userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
                 'You are invited to a session of TakeTalk. \n\n' + emailBody
             );
         }
+
+        //Redirection vers la page du meeting
         Router.go('/meeting/' + meetingId);
     }
 });
