@@ -154,7 +154,7 @@ Template.meeting.events({
                 var newInput = $(input.parents(".participantEmailInput")[0].cloneNode(true));
                 newInput.find(".participantsEmails").val("");
                 newInput.attr('rank', nextRank);
-                $(input.parents(".email-input-group")[0]).append(newInput)
+                $(input.parents(".email-input-group")[0]).append(newInput);
             }
         }
     },
@@ -172,7 +172,7 @@ Template.meeting.events({
                 var newInput = $(input.parents(".participantNameInput")[0].cloneNode(true));
                 newInput.find(".participantsName").val("");
                 newInput.attr('rank', nextRank);
-                $(input.parents(".name-input-group")[0]).append(newInput)
+                $(input.parents(".name-input-group")[0]).append(newInput);
             }
         }
     },
@@ -373,7 +373,9 @@ Template.parole.helpers ({
     }
 });
 /*
-// Fonction de QRCode � partir de la library qrcodejs disponible sur le site http://davidshimjs.github.io/qrcodejs/
+// ******************************************************************************************************************
+// Fonction de QRCode à partir de la library qrcodejs disponible sur le site http://davidshimjs.github.io/qrcodejs/
+// ******************************************************************************************************************
 $(document).ready(function(){
 
     var meetingId = Session.get("meetingId");
