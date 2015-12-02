@@ -18,14 +18,19 @@
           <nav class="navbar navbar-default navbar-fixed-top am-top-header">
               <div class="container-fluid">
                   <div class="navbar-header">
-                      <div class="page-title"><span>TakeTalk</span></div><a href="{{pathFor route='home'}}" class="navbar-brand title-font">TakeTalk</a>
-                  </div><a href="#" data-toggle="collapse" data-target="#am-navbar-collapse" class="am-toggle-top-header-menu collapsed"><span class="icon s7-angle-down"></span></a>
+                      <div class="page-title">
+                          <a href="{{pathFor route='home'}}" class="navbar-brand title-font">TakeTalk</a>
+                      </div>
+                  </div>
+                  <a href="#" data-toggle="collapse" data-target="#am-navbar-collapse" class="am-toggle-top-header-menu collapsed">
+                      <span class="icon s7-angle-down"></span>
+                  </a>
                   <div id="am-navbar-collapse" class="collapse navbar-collapse">
                       <ul class="nav navbar-nav am-nav-right">
                           <li><a href="{{pathFor route='home'}}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
                           <li><a href="{{pathFor route='tutorial'}}">Tutorial</a></li>
                           <li><a href="{{pathFor route='downloads'}}">Downloads</a></li>
-                          <!--
+                          <!-- Pour l'ajout d'un menu déroulant
                           <li class="dropdown">
                               <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">Services
                                   <span class="angle-down s7-angle-down" aria-hidden="true"></span>
@@ -42,25 +47,10 @@
           </nav>
           <div class="am-content">
               {{>yield}}
-              <!--
-              <div class="page-head">
-                  <h2>Page Title</h2>
-                  <ol class="breadcrumb">
-                      <li><a href="#">Home</a></li>
-                      <li class="active">Actual Page</li>
-                  </ol>
-              </div>
-              <div class="main-content">
-              </div>
-              -->
           </div>
           <footer>
             <p>
-              <!--
-              <iframe src="https://ghbtns.com/github-btn.html?user=Wuanshu&repo=taketalk&type=star&count=true&size=large"
-                frameborder="0" scrolling="0" width="160px" height="30px">
-              </iframe>
-              -->
+              <!-- Ici ajout d'informations pour le footer (plan du site, formulaire de contact, copyrights....) -->
             </p>
         </footer>
       </div>
