@@ -13,7 +13,7 @@ Votre appli est maintenant fonctionnelle sur le localhost.
 
 ## Tutoriel
 
-Le tutoriel est disponible sur: http://taketalk.meteor.com/tutorial
+Le tutoriel est disponible sur: https://github.com/bertrandquequeville/taketalk/wiki/Tutoriel
 
 ## Contribuez !
 
