@@ -1,4 +1,4 @@
-<snippet>
+﻿<snippet>
 <content>
 # TakeTalk
 
@@ -25,7 +25,7 @@ Projet créé sous la direction de Laurent Poligny, dans le cadre d'un projet en
 
 ## Auteurs
 
-POLIGNY Laurent - SMAIL Arezki - EL GAAD Hasnae - GLAVAS Karlo - CORBEAU Théodore - HAZEM Amar
+Laurent POLIGNY - Bertrand QUEQUEVILLE (bertrandquequeville) - Jerome RADAL(captainbulle) - Maxime CHAUSSY (chaussy)
 
 </content>
 </snippet>
